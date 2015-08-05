@@ -24,10 +24,16 @@ catch(PDOException $e)
     <body>
         <div class="wrap">
             <?php
-           foreach(glob('/uploads/*', GLOB_NOSORT) as $image)   
-    {  
-        echo "Filename: " . $image . "<br />";      
-    }  
+           foreach(glob('C:\MAMP\htdocs\GusNicholsArchives\uploads\*.jpg', GLOB_NOSORT) as $imageName)   
+        {  
+        //echo "Filename: " . $image . "<br />";
+        
+        $start  = strpos($imageName, '(pg');
+        $end    = strpos($imageName, ')', $start + 3);
+        $length = $end - $start;
+        $pageNum = substr($imageName, $start + 4, $length - 4);
+        echo ".".$pageNum . ". <br />";
+        }
             ?>
         </div>
     </body>
