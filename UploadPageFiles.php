@@ -1,4 +1,5 @@
 <?php
+session_start();
 $count = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     foreach ($_FILES['files']['name'] as $i => $name) {
