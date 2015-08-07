@@ -7,18 +7,17 @@ $_SESSION['publicationId']=$publicationId;
     $pass ="root";
 error_reporting(E_ALL);
 ini_set("auto_detect_line_endings",true);
-/*
+
 try {
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <hr>';
+        //echo 'Connected successfully <hr>';
     }
 catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
- * 
- */
+ 
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +37,7 @@ catch(PDOException $e)
 </head>
 <body>
      <!--Banner and navigation bar !-->
-        <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="100" width="1351">
+        <!--<img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">!-->
         <ul>
             <li><a href="index.php">Home</a></li>
             <li>View Publications</li>
@@ -55,7 +54,7 @@ catch(PDOException $e)
                          <!-- blank for first page to the right !-->
                      </div> 
                      <div class="bb-custom-firstpage">
-                         <img src="uploads/Sheaf 1979 (pg 1).jpg" height="665" width="525"  alt="pg 1">	
+                         <img src="uploads/Sheaf 1979 (pg 1).jpg" height="635" width="525"  alt="Sheaf Page 1">	
                      </div>
                     
                 </div>
@@ -65,11 +64,11 @@ catch(PDOException $e)
                 {   ?>
                 <div class="bb-item">
                     <div class="bb-custom-side">
-                        <img src="uploads/Sheaf 1979 (pg <?php echo $count?>).jpg" height="665" width="525"  alt="pg 2">
+                        <img src="uploads/Sheaf 1979 (pg <?php echo $count?>).jpg" height="635" width="525"  alt="Sheaf Page">
                     </div>
                     <?php $count++; ?>
                     <div class="bb-custom-side">
-                        <img src="uploads/Sheaf 1979 (pg <?php echo $count?>).jpg" height="665" width="525"  alt="pg 3">
+                        <img src="uploads/Sheaf 1979 (pg <?php echo $count?>).jpg" height="635" width="525"  alt="Sheaf Page">
                     </div>
                 </div>
                 <?php $count++; } ?>
