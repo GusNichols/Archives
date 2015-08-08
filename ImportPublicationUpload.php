@@ -21,10 +21,19 @@ catch(PDOException $e)
   <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="Style.css">
+        <link rel="stylesheet" href="css/Style.css">
         <title>Gus Nichols Archives Add Publication</title>
     </head>
     <body>
+        <!--Banner and navigation bar !-->
+        <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="importFile.php">Import Yearbook</a></li>
+            <li>About</li>
+        </ul>
+        <!--Banner and navigation bar !--> 
     <?php
     
     // Where the file is going to be placed C:\Users\Lindsey\Documents\NetBeansProjects\GusNicholsArchives\

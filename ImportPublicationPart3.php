@@ -21,10 +21,19 @@ catch(PDOException $e)
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="Style.css">
+        <link rel="stylesheet" href="css/Style.css">
         <title></title>
     </head>
     <body>
+        <!--Banner and navigation bar !-->
+        <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="importFile.php">Import Yearbook</a></li>
+            <li>About</li>
+        </ul>
+        <!--Banner and navigation bar !--> 
         <div class="wrap">
             <?php
         foreach(glob('C:\MAMP\htdocs\GusNicholsArchives\uploads\*.jpg', GLOB_NOSORT) as $imagePath)   
@@ -44,7 +53,10 @@ catch(PDOException $e)
         
         else
             {
-                echo "Page ".$pageNum."failed to import <br />";
+                $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID) "
+                        . "VALUES(?,?,?)");
+                $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
+                echo "Page ".$pageNum." created and imported <br />";
             }
          
         }
