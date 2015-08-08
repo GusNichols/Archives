@@ -31,7 +31,8 @@ catch(PDOException $e)
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
-        <p> Find a personId: </p>
+        
+        <!-- <p> Find a personId: </p>
 
         <form method='post' action='NameSearchResults.php'>
             <table>
@@ -51,6 +52,7 @@ catch(PDOException $e)
                 </tr>
             </table>
         </form>
+        !-->
     </body>
 </html>
 
