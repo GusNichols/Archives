@@ -28,10 +28,9 @@ catch(PDOException $e)
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <title>View Publication</title>
         <meta name="author" content="Codrops" />
-        <link rel="shortcut icon" href="../favicon.ico"> 
+        <!-- <link rel="shortcut icon" href="../favicon.ico">!-->
         <link rel="stylesheet" type="text/css" href="css/default.css" />
         <link rel="stylesheet" type="text/css" href="css/bookblock.css" />
-        <!-- custom demo style -->
         <link rel="stylesheet" type="text/css" href="css/demo4.css" />
         <script src="js/modernizr.custom.js"></script>
 </head>
@@ -40,7 +39,7 @@ catch(PDOException $e)
         <!--<img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">!-->
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li>View Publications</li>
+            <li><a href="ViewPublication.php">View Publications</a></li>
             <li><a href="importFile.php">Import Publication</a></li>
             <li>About</li>
         </ul>
@@ -72,17 +71,6 @@ catch(PDOException $e)
                     </div>
                 </div>
                 <?php $count++; } ?>
-                <!--
-                <div class="bb-item">
-                    <div class="bb-custom-side">
-                            <p>Croissant pudding gingerbread gummi bears marshmallows </p>
-                    </div>
-                    <div class="bb-custom-side">
-                            <p>Wafer donut caramels chocolate caramels sweet roll.</p>
-                    </div>
-                </div>
-                !-->
-
             </div>
 
                 <nav>
@@ -111,7 +99,7 @@ catch(PDOException $e)
                             },
                         init = function() {
                                 config.$bookBlock.bookblock( {
-                                        speed : 1000,
+                                        speed : 1500,
                                         shadowSides : 0.8,
                                         shadowFlip : 0.4
                                 } );
