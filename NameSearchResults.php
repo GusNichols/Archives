@@ -14,15 +14,37 @@ catch(PDOException $e)
     echo 'Connection failed: ' . $e->getMessage();
     }
 
+?>
 
- $personId= findName($_POST['lname'],$_POST['fname'],$pdo);
- print($personId);
+<html>
+    <head>
+        <title>
+    </title>
+        
+        <link rel="stylesheet" href="css/Style.css">
+    </head>
+    <body>
+        <!--Banner and navigation bar !-->
+        <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="importFile.php">Import Yearbook</a></li>
+            <li>About</li>
+        </ul>
+        <hr>
+        <!--Banner and navigation bar !--> 
+        <?php
+            $personId= findName($_POST['lname'],$_POST['fname'],$pdo);
 
-function test($a)
-{
-    echo $a;
-}
-function findName($last, $first, $pdo)
+            echo "<p> The person's id in the database is: </p>".$personId;
+        ?>
+
+    </body>
+</html>
+ 
+<?php
+ function findName($last, $first, $pdo)
     {
         //manual return since it can't find personID 1 for "unknown" entries
        if($last === "Unknown")
@@ -42,25 +64,5 @@ function findName($last, $first, $pdo)
          return $results;
         }
     }
-    
-     
+       
 ?>
-<html>
-    <head>
-        <title>
-    </title>
-        
-        <link rel="stylesheet" href="css/Style.css">
-    </head>
-    <body>
-        <!--Banner and navigation bar !-->
-        <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="ViewPublication.php">View Publications</a></li>
-            <li><a href="importFile.php">Import Yearbook</a></li>
-            <li>About</li>
-        </ul>
-        <!--Banner and navigation bar !--> 
-    </body>
-</html>

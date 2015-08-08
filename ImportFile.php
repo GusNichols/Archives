@@ -22,15 +22,20 @@ session_start();
         
         <div class="wrap">
         <h3> File Upload:</h3>
-        <p>Select the csv file:</p> <br>
+        <br>
+        <h4>**Important**<br>Please ensure that you import .CSV files <b>NOT</b> Excel files.</h4>
+        <br>
        <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
         
         <?php if($_SESSION['part']==2){ ?>
-        <p>Please choose the .csv file for the <b>first</b> sheet of the excel worksheet.</p> 
+        <p>Please choose the .csv file from the <b>first</b> sheet of the excel worksheet.
+            <br>This file contains names, page numbers, descriptions, and types. </p> 
         <?php } else { ?>
-        <p>Please choose the .csv file for the <b>second</b> sheet of the excel worksheet.</p>
+        <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
+            <br>This file contains names and page numbers.</p>
         <?php } ?>
+        
         <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
         <input type="submit" value="Upload File" />
         </form>
