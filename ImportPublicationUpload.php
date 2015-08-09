@@ -29,7 +29,7 @@ catch(PDOException $e)
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
@@ -43,7 +43,7 @@ $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
 
 if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) 
     {
-    echo "The file has been uploaded sucessfully. It is now ready to be imported into the database.<br>"; 
+    echo "Step 2 or 4 - The file has been uploaded sucessfully. It is now ready to be imported into the database.<br>"; 
     
     if($_SESSION['part']==2)
      {

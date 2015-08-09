@@ -13,7 +13,7 @@ session_start();
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
@@ -21,7 +21,7 @@ session_start();
         <!--Banner and navigation bar !--> 
         
         <div class="wrap">
-        <h3> File Upload:</h3>
+        <h3>Part 1 or 3 - File Upload:</h3>
         <br>
         <h4>**Important**<br>Please ensure that you import .CSV files <b>NOT</b> Excel files.</h4>
         <br>

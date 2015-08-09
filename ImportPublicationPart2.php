@@ -29,7 +29,7 @@ catch(PDOException $e)
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="ViewPublication.php">View Publications</a></li>
+            <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
@@ -40,7 +40,6 @@ catch(PDOException $e)
     {
     
     $publicationId= $_SESSION['publicationId'];
-    echo $publicationId. "<br>";
     $file2 = $_POST['file'];
     echo $file2. "<br>";
     $fp2 = fopen($file2,'r');
@@ -105,7 +104,7 @@ try
         $pdo->exec($sql4);
         
     }
-    echo " <b> The import is complete! </b> ";
+    echo "all imports complete";
     fclose($file2);
     session_unset();
 }
@@ -148,5 +147,7 @@ function findPage($publication, $page, $pdo)
     }
     
         ?>
+        <p>All .csv files have been imported successfully. Please continue to 
+            <a href="UploadPageFiles.php">the image importing process</a>. </p>
     </body>
 </html>
