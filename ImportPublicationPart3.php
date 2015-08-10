@@ -1,7 +1,5 @@
 <?php
 session_start();
-$publicationId=11; //temporary variable!!
-$_SESSION['publicationId']=$publicationId;
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -48,7 +46,7 @@ catch(PDOException $e)
              //echo $pageNum.":".$pageId."<br />";
              $sql=$pdo->prepare("UPDATE Page SET Image_Path=? WHERE PageId=?");
              $sql->execute(array($imagePath,$pageId));
-             echo "Page ".$pageNum."imported <br />";
+             //echo "Page ".$pageNum."imported <br />";
             }
         
         else
@@ -61,8 +59,9 @@ catch(PDOException $e)
          
         }
             ?>
+            <p>Congratulations! This Yearbook is ready to be viewed.</p>
         </div>
-        <p>Congratulations! This Yearbook is ready to be viewed.</p>
+        
     </body>
 </html>
 <?php
