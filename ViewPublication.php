@@ -1,7 +1,5 @@
 <?php
 session_start();
-//$publicationId=11; //temporary variable!!
-//$_SESSION['publicationId']=$publicationId;
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -20,6 +18,7 @@ catch(PDOException $e)
 $stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
 $stmt->execute(array($_POST['Name']));
 $_SESSION['publicationId']=$stmt->fetchColumn();
+$lastPage=192;
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +53,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath = $sql->fetchColumn();
                 $newPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath);
-                       
+                     
                 ?>
           
                 <div class="bb-item">
@@ -68,12 +67,14 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 </div>
            <?php $count++; } ?>
                 <?php
-                while(($count>1)&&($count<=192))
-                {
+                while(($count>1)&&($count<=$lastPage))
+                {                
+
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath2 = $sql->fetchColumn();
                 $newPath2=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath2); 
-                $count++;  ?>
+                
+                ?>
                 
                 <div class="bb-item">
                     <div class="bb-custom-side">
@@ -81,15 +82,20 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                     </div> 
                     
                 <?php
+                
+                $count++;
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath3 = $sql->fetchColumn();
                 $newPath3=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath3); 
-                $count++;  ?>
+               
+               ?>
+               
                     <div class="bb-custom-side">
                          <img src="<?php echo $newPath3?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">	
                     </div>
                 </div>
-                <?php } ?>
+                <?php $count++; }
+                if($count>$lastPage){echo "<h1>You have reached the end of this publication</h1>";}?>
             </div>
 
                 <nav>

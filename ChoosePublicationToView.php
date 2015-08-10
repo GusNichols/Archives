@@ -1,7 +1,5 @@
 <?php
 session_start();
-$publicationId=11; //temporary variable!!
-$_SESSION['publicationId']=$publicationId;
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -36,8 +34,9 @@ catch(PDOException $e)
         <!--Banner and navigation bar !--> 
         <div class="wrap">
         <form action='ViewPublication.php' method='post'>
-            <p>
-            <select name="Name">
+            <p> <h1> Please select the publication that you would like to view: </h1>
+                
+            <select name="Name" style="height:50px; width:200px">
                <?php
                $sql = "SELECT Name FROM Publication";
                $result= $pdo->query($sql);
@@ -51,7 +50,7 @@ catch(PDOException $e)
                 ?>
             </select>    
             </p>
-        <input type='submit' value='View Yearbook'>
+        <input type='submit' value='View Yearbook'style="height:50px; width:200px">
         </form>
         </div>
     </body>
