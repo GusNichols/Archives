@@ -1,8 +1,5 @@
 <?php
 session_start();
-?>
-<!DOCTYPE html>
-<?php
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -11,13 +8,14 @@ ini_set("auto_detect_line_endings",true);
 try {
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <hr>';
+       // echo 'Connected successfully <hr>';
     }
 catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
 ?>
+<!DOCTYPE html>
   <html>
     <head>
         <meta charset="UTF-8">
@@ -25,6 +23,7 @@ catch(PDOException $e)
         <title>Gus Nichols Archives Add Publication</title>
     </head>
     <body>
+        
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -50,7 +49,7 @@ if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
        ?> 
         <form action='ImportPublicationPart2.php' method='post'>
         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
-        <p>This can take several more minutes. Please do not close this page until the import is complete.</p>
+        <p>This can take several more minutes. Please do not close or resubmit this page.</p>
         <input type='submit' value='Import Publication'>
         </form> 
     <?php }
@@ -59,7 +58,7 @@ if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
         <form action='ImportPublicationPart1.php' method='post'>
         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
         <p>Name of publication:</p><input type="text" name="name" required>
-        <p>This process could take several minutes. Please do not close this page.</p>
+        <p>This process could take several minutes. Please do not close or resubmit this page.</p>
         <input type='submit' value='Import Publication'>
         </form>
    <?php 

@@ -1,8 +1,6 @@
 <?php
 session_start();
-?>
-<!DOCTYPE html>
-<?php
+
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -11,13 +9,14 @@ ini_set("auto_detect_line_endings",true);
 try {
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <hr>';
+      //  echo 'Connected successfully <hr>';
     }
 catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -25,6 +24,7 @@ catch(PDOException $e)
         <title></title>
     </head>
     <body>
+        <?php echo $_SESSION['publicationId']; ?>
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>

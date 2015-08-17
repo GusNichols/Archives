@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $count = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     foreach ($_FILES['files']['name'] as $i => $name) {
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </head>
     
     <body>
+       <?php echo $_SESSION['publicationId']; ?>
      <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>

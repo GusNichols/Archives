@@ -1,4 +1,5 @@
 <?php
+session_start();
     $connString = "mysql:host=localhost;dbname=GusNicholsArchives";
     $user ="root";
     $pass ="root";
@@ -6,7 +7,7 @@
 try {
     $pdo = new PDO($connString, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo 'Connected successfully! <hr>';
+    //echo 'Connected successfully! <hr>';
     }
 catch(PDOException $e)
     {

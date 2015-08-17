@@ -4,16 +4,17 @@ session_start();
     $user ="root";
     $pass ="root";
 error_reporting(E_ALL);
-ini_set("auto_detect_line_endings",true);
+
 try {
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <hr>';
+      //  echo 'Connected successfully <hr>';
     }
 catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,7 @@ catch(PDOException $e)
         <title></title>
     </head>
     <body>
+        <?php echo $_SESSION['publicationId']; ?>
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -54,12 +56,12 @@ catch(PDOException $e)
                 $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID) "
                         . "VALUES(?,?,?)");
                 $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
-                echo "Page ".$pageNum." created and imported <br />";
+               // echo "Page ".$pageNum." created and imported <br />";
             }
          
         }
             ?>
-            <p>Congratulations! This Yearbook is ready to be viewed.</p>
+            <h1>Congratulations! This Yearbook is ready to be viewed.</h1>
         </div>
         
     </body>

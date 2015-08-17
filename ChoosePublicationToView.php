@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 try {
         $pdo = new PDO($connString, $user, $pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <hr>';
+       // echo 'Connected successfully <hr>';
     }
 catch(PDOException $e)
     {

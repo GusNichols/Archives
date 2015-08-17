@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <?php
+session_start();
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -15,7 +15,7 @@ catch(PDOException $e)
     }
 
 ?>
-
+<!DOCTYPE html>
 <html>
     <head>
         <title>

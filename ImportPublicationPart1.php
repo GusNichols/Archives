@@ -1,5 +1,21 @@
 <?php
 session_start();
+    $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
+    $user ="root";
+    $pass ="root";
+error_reporting(E_ALL);
+ini_set("auto_detect_line_endings",true);
+try {
+        $pdo = new PDO($connString, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      //  echo 'Connected successfully <br>';
+    }
+catch(PDOException $e)
+    {
+        echo 'Connection failed: ' . $e->getMessage();
+        
+    }
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,6 +25,7 @@ session_start();
    <title>Importing a New Publication</title>
 </head>
 <body>
+    
     <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -18,23 +35,9 @@ session_start();
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
-<?php
-    $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
-    $user ="root";
-    $pass ="root";
-error_reporting(E_ALL);
-ini_set("auto_detect_line_endings",true);
-try {
-        $pdo = new PDO($connString, $user, $pass);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connected successfully <br>';
-    }
-catch(PDOException $e)
-    {
-        echo 'Connection failed: ' . $e->getMessage();
-        
-    }
- 
+
+
+ <?php
    // start Publication table import (working) ---------------
      $name=$_POST['name'];
 try {
@@ -45,7 +48,7 @@ try {
         $stmt = $pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
         $stmt->execute(array($name));
         $publicationId = $stmt->fetchColumn();
-        echo " New Publication record created successfully. <br> ";
+        echo " <p>New Publication record created successfully.</p> <br> ";
     } 
 
 catch (Exception $e) 
@@ -84,7 +87,7 @@ try
             $pdo->exec($sql2);
         }
     }
-    echo " Person table populated sucessfully.<hr> ";
+    echo " <p>Person table populated sucessfully.</p><hr> ";
     
     fclose($file);
 }
