@@ -41,7 +41,7 @@ catch(PDOException $e)
     
     $publicationId= $_SESSION['publicationId'];
     $file2 = $_POST['file'];
-    echo $file2. "<br>";
+    //echo $file2. "<br>";
     $fp2 = fopen($file2,'r');
     set_time_limit(0);
     $data2 = [];
