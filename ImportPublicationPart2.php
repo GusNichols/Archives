@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+echo session_status();
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -106,7 +106,7 @@ try
     }
     echo "all imports complete";
     fclose($file2);
-    session_unset();
+    
 }
 catch (Exception $e)
 {

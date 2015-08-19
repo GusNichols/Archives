@@ -34,8 +34,8 @@ catch(PDOException $e)
         <!--Banner and navigation bar !--> 
         <div class="wrap">
         <form action='ViewPublication.php' method='post'>
-            <p> <h1> Please select the publication that you would like to view: </h1>
-                
+             <h1> Please select the publication that you would like to view: </h1>
+             <p>    
             <select name="Name" style="height:50px; width:200px">
                <?php
                $sql = "SELECT Name FROM Publication";
@@ -49,7 +49,7 @@ catch(PDOException $e)
                 endwhile;
                 ?>
             </select>    
-            </p>
+             </p>
         <input type='submit' value='View Yearbook'style="height:50px; width:200px">
         </form>
         </div>

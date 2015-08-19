@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+echo session_status();
 $count = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     foreach ($_FILES['files']['name'] as $i => $name) {
@@ -36,12 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ($count > 0) {
                 echo "<p class='msg'>{$count} files uploaded</p>\n\n";
             }
+            echo "<h1> Step ". $_SESSION['part']. "Page Image Files</h1>";
             ?>
-            <h1>Page Image Files</h1>
+            
             <p><b>Please select all image files for the publication.</b>
-                You can select several files at once by clicking the first file
-            in the group and holding the shift key while clicking the last file
-            of the group.</p>
+                You can do this by opening the images folder, clicking the 
+                first file, and then pressing the <b>ctrl and A</b> keys at the same time.</p>
             <form method="post" enctype="multipart/form-data">
                 <input type="file" name="files[]" id="files" multiple>
                 <input class="button" type="submit" value="Upload" />

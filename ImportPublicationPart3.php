@@ -1,6 +1,7 @@
 <?php
 session_start();
-$_SESSION['publicationId']=19;
+echo session_status();
+    echo print_r($_SESSION);
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -25,7 +26,7 @@ catch(PDOException $e)
         <title></title>
     </head>
     <body>
-        <?php session_start();
+        <?php 
         echo $_SESSION['publicationId']; ?>
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
@@ -66,13 +67,16 @@ catch(PDOException $e)
                         . "VALUES(?,?,?)");
                 try{
                 $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
-                echo "Page ".$pageNum." created and imported <br />";}
+                //echo "Page ".$pageNum." created and imported <br />";
+                
+                }
                 catch(Exception $e)
                 {
                     echo 'Error: ' . $e->getMessage();
                 }
             }
         }
+            //session_unset(); //erase temporary values used for importing
             ?>             
         
             <h1>Congratulations! This Yearbook is ready to be viewed.</h1>

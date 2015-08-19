@@ -42,7 +42,7 @@ $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
 
 if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) 
     {
-    echo "Step 2 or 4 - The file has been uploaded sucessfully. It is now ready to be imported into the database.<br>"; 
+    echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded sucessfully. It is now ready to be imported into the database.</p><br>"; 
     
     if($_SESSION['part']==2)
      {
@@ -52,8 +52,8 @@ if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
         <p>This can take several more minutes. Please do not close or resubmit this page.</p>
         <input type='submit' value='Import Publication'>
         </form> 
-    <?php }
-    else
+    <?php $_SESSION['part']=3; }
+    else if($_SESSION['part']==1)
     { ?> 
         <form action='ImportPublicationPart1.php' method='post'>
         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
