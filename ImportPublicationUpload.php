@@ -36,34 +36,43 @@ catch(PDOException $e)
     <?php
     
     // Where the file is going to be placed C:\Users\Lindsey\Documents\NetBeansProjects\GusNicholsArchives\
-$main_path = "uploads\\";
+ 
 
-$target_path = $main_path . basename( $_FILES['uploadedfile']['name']); 
 
-if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) 
-    {
-    echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded sucessfully. It is now ready to be imported into the database.</p><br>"; 
     
-    if($_SESSION['part']==2)
+    if($_SESSION['part']==1)
      {
-       ?> 
+        //NEED TO FIX MKDIR FUNCTION!!!
+        $_SESSION['name']=$_POST['name'];
+        $main_path = mkdir("uploads\\".$_SESSION['name']."\\");
+        $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
+        
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))  
+        {
+            echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded successfully. 
+            It is now ready to be imported into the database.</p><br>"; ?>
+            <form action='ImportPublicationPart1.php' method='post'>
+            <input type='hidden' name='file' value='<?php echo $target_path ?>'>
+            <p>This process could take several minutes. Please do not close or resubmit this page.</p>
+            <input type='submit' value='Import Publication'>
+            </form>
+        
+        <?php } }
+    else if($_SESSION['part']==2)
+    {   $main_path = "uploads\\".$_SESSION['name']."\\";
+        $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))  
+        {
+            echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded successfully. 
+        </p><br>";}?>
         <form action='ImportPublicationPart2.php' method='post'>
         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
         <p>This can take several more minutes. Please do not close or resubmit this page.</p>
         <input type='submit' value='Import Publication'>
         </form> 
-    <?php $_SESSION['part']=3; }
-    else if($_SESSION['part']==1)
-    { ?> 
-        <form action='ImportPublicationPart1.php' method='post'>
-        <input type='hidden' name='file' value='<?php echo $target_path ?>'>
-        <p>Name of publication:</p><input type="text" name="name" required>
-        <p>This process could take several minutes. Please do not close or resubmit this page.</p>
-        <input type='submit' value='Import Publication'>
-        </form>
    <?php 
     }
-   }
+   
 else
     {  
        

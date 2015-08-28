@@ -1,7 +1,7 @@
 <?php
 session_start();
-echo session_status();
-    echo print_r($_SESSION);
+//echo session_status();
+    //echo print_r($_SESSION);
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -39,12 +39,15 @@ catch(PDOException $e)
         <!--Banner and navigation bar !--> 
         <div class="wrap">
             <?php
-        foreach(glob('C:\MAMP\htdocs\GusNicholsArchives\uploads\*.jpg', GLOB_NOSORT) as $imagePath)        
+    if($_SESSION['part']==3)
+    {
+        foreach(glob("C:\\MAMP\\htdocs\\GusNicholsArchives\\uploads\\".$_SESSION['name'].
+                "\\*.jpg", GLOB_NOSORT) as $imagePath)        
         {  
             $imageName= basename($imagePath);
-            echo $imageName;
+           // echo $imageName;
             $pageNum= extractPageNumber($imageName);
-            echo $pageNum;
+           // echo $pageNum;
             $stmt = $pdo->prepare("SELECT PageId FROM Page WHERE PageNumber=? AND Publication_PublicationId=?");
             $stmt->execute(array($pageNum, $_SESSION['publicationId']));
             $pageId = $stmt->fetchColumn();
@@ -63,11 +66,11 @@ catch(PDOException $e)
         
             else
             {
-                $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID) "
+                $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID)"
                         . "VALUES(?,?,?)");
                 try{
                 $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
-                //echo "Page ".$pageNum." created and imported <br />";
+                echo "Page ".$pageNum." created and imported <br />";
                 
                 }
                 catch(Exception $e)
@@ -75,11 +78,14 @@ catch(PDOException $e)
                     echo 'Error: ' . $e->getMessage();
                 }
             }
-        }
-            //session_unset(); //erase temporary values used for importing
+            
+        } //end foreach        
+    } //end if          
+                //session_unset(); //erase temporary values used for importing
             ?>             
         
             <h1>Congratulations! This Yearbook is ready to be viewed.</h1>
+    
         </div>
         
     </body>

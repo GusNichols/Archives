@@ -39,7 +39,8 @@ catch(PDOException $e)
 
  <?php
    // start Publication table import (working) ---------------
-     $name=$_POST['name'];
+     $name=$_SESSION['name'];
+     
 try {
         $sql = "INSERT INTO Publication (Name)
         VALUES ('$name')";
@@ -48,6 +49,7 @@ try {
         $stmt = $pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
         $stmt->execute(array($name));
         $publicationId = $stmt->fetchColumn();
+        $_SESSION['publicationId']=$publicationId;
         echo " <p>New Publication record created successfully.</p> <br> ";
     } 
 
@@ -98,7 +100,7 @@ catch (Exception $e)
     }
 //------end person table import --------*/
     $_SESSION['part']=2;
-    $_SESSION['publicationId']=$publicationId;
+    
     ?>
     <form action='ImportFile.php' method='post'>
         <p>Please continue to the second part of the import process.</p>

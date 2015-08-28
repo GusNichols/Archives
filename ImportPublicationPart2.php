@@ -145,7 +145,7 @@ function findPage($publication, $page, $pdo)
         $results = $stmt->fetchColumn();
          return $results;
     }
-    
+        $_SESSION['part']=3;
         ?>
         <p>All .csv files have been imported successfully. Please continue to 
             <a href="UploadPageFiles.php">the image importing process</a>. </p>

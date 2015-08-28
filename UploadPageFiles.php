@@ -1,11 +1,10 @@
 <?php
 session_start();
-echo session_status();
 $count = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     foreach ($_FILES['files']['name'] as $i => $name) {
         if (strlen($_FILES['files']['name'][$i]) > 1) {
-            if (move_uploaded_file($_FILES['files']['tmp_name'][$i], 'uploads/'.$name)) {
+            if (move_uploaded_file($_FILES['files']['tmp_name'][$i], "uploads\\".$_SESSION['name']."\\".$name)) {
                 $count++;
             }
         }
@@ -36,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             if ($count > 0) {
                 echo "<p class='msg'>{$count} files uploaded</p>\n\n";
             }
-            echo "<h1> Step ". $_SESSION['part']. "Page Image Files</h1>";
+            echo "<h1> Step ". $_SESSION['part']. "  - Page Image Files</h1>";
             ?>
             
             <p><b>Please select all image files for the publication.</b>

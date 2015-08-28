@@ -95,7 +95,7 @@ $lastPage=192;
                     </div>
                 </div>
                 <?php $count++; }
-                if($count>$lastPage){echo "<h1>You have reached the end of this publication</h1>";}?>
+                if($count==$lastPage){echo "<h1>You have reached the end of this publication</h1>";}?>
             </div>
 
                 <nav>

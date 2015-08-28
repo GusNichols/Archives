@@ -23,23 +23,32 @@ session_start();
         <div class="wrap">
         <h4>**Important**<br>Please ensure that you import .CSV files <b>NOT</b> Excel files.</h4>
         <br>
-       <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
-        <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+       
         
         <?php if($_SESSION['part']==2){ 
         echo "<h3> Step " . $_SESSION['part'] . " - File Upload:</h3>"; ?>
         <br>
+        <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
+        <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
         <p>Please choose the .csv file from the <b>first</b> sheet of the excel worksheet.
-            <br>This file contains names, page numbers, descriptions, and types. </p> 
-        <?php } else { $_SESSION['part']=1;
-        echo "<h3> Step" . $_SESSION['part'] . " - File Upload:</h3>"; ?>
-        <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
-            <br>This file contains names and page numbers.</p>
-        <?php } ?>
-        
+            <br>This file contains names, page numbers, descriptions, and types. </p>
         <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
         <input type="submit" value="Upload File" />
         </form>
+        
+        <?php } else { $_SESSION['part']=1;
+        echo "<h3> Step" . $_SESSION['part'] . " - File Upload:</h3>"; ?>
+        <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
+        <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+        <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
+        <br>This file contains names and page numbers.</p>
+        <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
+        <p>Name of publication:</p><input type="text" name="name" required>
+        <input type="submit" value="Upload File" />
+        </form>
+        <?php } ?>
+        
+       
         </div>
     </body>
 </html>
