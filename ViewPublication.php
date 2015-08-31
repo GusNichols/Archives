@@ -18,7 +18,7 @@ catch(PDOException $e)
 $stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
 $stmt->execute(array($_POST['Name']));
 $_SESSION['publicationId']=$stmt->fetchColumn();
-$lastPage=192;
+
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ $lastPage=192;
                 </div>
            <?php $count++; } ?>
                 <?php
-                while(($count>1)&&($count<=$lastPage))
+                while(($count>1))
                 {                
 
                 $sql->execute(array($_SESSION['publicationId'], $count));
@@ -87,15 +87,24 @@ $lastPage=192;
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath3 = $sql->fetchColumn();
                 $newPath3=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath3); 
-               
+                if($imagePath3==false)
+                {
+                   $count='';
+                }
+                if($count!='')
+                {
                ?>
                
                     <div class="bb-custom-side">
                          <img src="<?php echo $newPath3?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">	
                     </div>
+                
+                <?php }
+                if($count==''){?> <div class="bb-custom-side"><h1>You have reached the end of this publication</h1></div>
+                <?php } ?>
                 </div>
                 <?php $count++; }
-                if($count==$lastPage){echo "<h1>You have reached the end of this publication</h1>";}?>
+              /*  */ ?>
             </div>
 
                 <nav>
