@@ -7,7 +7,7 @@ session_start();
 try {
     $pdo = new PDO($connString, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo 'Connected successfully<hr>';
+    //echo 'Connected successfully<hr>';
     }
 catch(PDOException $e)
     {
@@ -29,17 +29,46 @@ catch(PDOException $e)
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
+            <li><a href="search.php">Search</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
+        
+        
+        <div class='wrap'>
         <?php
+        //DOES NOT WORK!! ----------------------------------------
             $personId= findName($_POST['lname'],$_POST['fname'],$pdo);
+            //echo "<p> The person's id in the database is: </p>".$personId."<br>";
+            echo "<p> Results:</p><br>";
+            $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
+            $sql->execute(array($personId));
+            $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+            $row_count = $sql->rowCount();
+            if ($row_count > 0) 
+             {
+                foreach($resultPageIds as $id)
+                {
+                    //echo $id[Page_PageId]."<br>";
+                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
+                    $sql2->execute(array($id['Page_PageId']));
+                    $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
+                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
+                    echo "<img src='".$shortPath."' height='635' width='525' alt='result' >";
+                    //echo "Path is:".$resultPath[Image_Path]."<br>";
+                }
+                   
+             } 
+            else {
+                echo "Your search returned 0 results.";
+            }  
 
-            echo "<p> The person's id in the database is: </p>".$personId;
+            
+            echo "<p>".$row_count."results</p>";
         ?>
-
+        </div>
     </body>
 </html>
  
@@ -57,7 +86,7 @@ catch(PDOException $e)
         $results = $stmt->fetchColumn();
         if (!$results)
         {
-          return 2;
+          return 2; // number for exceptions that couldn't import properly
         }
         else
         {
