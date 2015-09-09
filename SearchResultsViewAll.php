@@ -29,7 +29,7 @@ catch(PDOException $e)
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
-            <li><a href="search.php">Search</a></li>
+            <li><a href="search.php">New Search</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
@@ -39,59 +39,39 @@ catch(PDOException $e)
         
         <div class='wrap'>
         <?php
-        //DOES NOT WORK!! ----------------------------------------
-            $personId= findName($_POST['lname'],$_POST['fname'],$pdo);
-            //echo "<p> The person's id in the database is: </p>".$personId."<br>";
-            echo "<p> Results:</p><br>";
+        
+           
+            
+            
             $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
-            $sql->execute(array($personId));
+            $sql->execute(array($_SESSION['personId']));
             $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
             $row_count = $sql->rowCount();
+            echo "<h1>". $row_count. " Results:</h1><br>";
             if ($row_count > 0) 
              {
                 foreach($resultPageIds as $id)
                 {
-                    //echo $id[Page_PageId]."<br>";
+                    
                     $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
                     $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
                     $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
                     echo "<img src='".$shortPath."' height='635' width='525' alt='result' >";
-                    //echo "Path is:".$resultPath[Image_Path]."<br>";
+                    
                 }
-                   
+               echo "<form action='SearchResults.php' method='POST'> <input type='hidden' name='fromViewAll' value='y'>
+                            <input type='submit' value='Back to page view'>
+                    </form>";    
              } 
             else {
-                echo "Your search returned 0 results.";
+                echo "Sorry, no results found.";
             }  
 
             
-            echo "<p>".$row_count."results</p>";
+            
         ?>
         </div>
     </body>
 </html>
  
-<?php
- function findName($last, $first, $pdo)
-    {
-        //manual return since it can't find personID 1 for "unknown" entries
-       if($last === "Unknown")
-        {
-          return 1;
-        }
-       
-        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
-        $stmt->execute(array($last, $first));
-        $results = $stmt->fetchColumn();
-        if (!$results)
-        {
-          return 2; // number for exceptions that couldn't import properly
-        }
-        else
-        {
-         return $results;
-        }
-    }
-       
-?>

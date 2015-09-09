@@ -18,7 +18,7 @@ session_start();
             <li>About</li>
         </ul>
         <hr>
-        <!--Banner and navigation bar !--> 
+        <!--Banner and navigation bar !-->
         
         <div class="wrap">
         <h4>**Important**<br>Please ensure that you import .CSV files <b>NOT</b> Excel files.</h4>

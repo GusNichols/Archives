@@ -33,6 +33,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
         <link rel="stylesheet" type="text/css" href="css/default.css" />
         <link rel="stylesheet" type="text/css" href="css/bookblock.css" />
         <link rel="stylesheet" type="text/css" href="css/demo4.css" />
+        <link rel="stylesheet" href="css/Style.css">
         <script src="js/modernizr.custom.js"></script>
 </head>
 <body>
@@ -46,12 +47,15 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
-    <div class="container">
-        <div class="bb-custom-wrapper">
-            <div id="bb-bookblock" class="bb-bookblock">
-                <?php  $personId= findName($_POST['lname'],$_POST['fname'],$pdo);
+    
+                <?php  
+                if($_POST[fromViewAll] != 'y')
+                {
+                    $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
+                }
+                
                 $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
-                $sql->execute(array($personId));
+                $sql->execute(array($_SESSION['personId']));
                 $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
                 $row_count = $sql->rowCount();
                 $pathArray=[];
@@ -73,22 +77,29 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                  } 
                 else 
                 {
-                    echo "Your search returned 0 results.";
+                    
+                    echo "<div class='wrap'>Your search returned 0 results. <br> "
+                    . "<a href='search.php'>New Search</a></div>";
+                    
                 }  
 
 
-                
+if($row_count > 0)
+{ 
                 ?>
-                
-          
+
+    <div class="container">
+        <div class="bb-custom-wrapper">
+            <div id="bb-bookblock" class="bb-bookblock">
                 <div class="bb-item">
                     <div class="bb-custom-side">
-                        <!-- blank for first page to the right !-->
-                     </div> 
-                     <div class="bb-custom-firstpage">
-                         <!--<h1> </h1>!-->
+                        <!--first page to the right !-->
+                        <h1><a href="SearchResultsViewAll.php"> View All </a></h1>
+                    </div>
+                    <div class="bb-custom-firstpage">
+                         
                          <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Result Page 1">	
-                     </div>
+                    </div>
                     
                 </div>
            <?php ?>
@@ -134,7 +145,8 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
     
 
     </div><!-- /container -->
-    <?php function findName($last, $first, $pdo)
+
+<?php } function findName($last, $first, $pdo)
     {
         //manual return since it can't find personID 1 for "unknown" entries
        if($last === "Unknown")
@@ -145,14 +157,8 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
         $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
         $stmt->execute(array($last, $first));
         $results = $stmt->fetchColumn();
-        if (!$results)
-        {
-          return 2; // number for exceptions that couldn't import properly
-        }
-        else
-        {
-         return $results;
-        }
+        return $results;
+        
     }
     ?>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
