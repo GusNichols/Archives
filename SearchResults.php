@@ -86,47 +86,38 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                         <!-- blank for first page to the right !-->
                      </div> 
                      <div class="bb-custom-firstpage">
-                         <!--<h1><?php print_r($pathArray); ?>  </h1>!-->
-                         <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Sheaf Page 1">	
+                         <!--<h1> </h1>!-->
+                         <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Result Page 1">	
                      </div>
                     
                 </div>
            <?php ?>
-                <?php
-                while(($count>1))
-                {                
-
-                $sql->execute(array($_SESSION['publicationId'], $count));
-                $imagePath2 = $sql->fetchColumn();
-                $newPath2=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath2); 
-                
+                <?php $count=2;
+                while($count<=$row_count)
+                {               
                 ?>
                 
                 <div class="bb-item">
                     <div class="bb-custom-side">
-                        <img src="<?php echo $newPath2?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">
+                        
+                        <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">
                     </div> 
                     
                 <?php
                 
                 $count++;
-                $sql->execute(array($_SESSION['publicationId'], $count));
-                $imagePath3 = $sql->fetchColumn();
-                $newPath3=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath3); 
-                if($imagePath3==false)
+                
+                if($count<=$row_count)
                 {
-                   $count='';
-                }
-                if($count!='')
-                {
+                 
                ?>
                
                     <div class="bb-custom-side">
-                         <img src="<?php echo $newPath3?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">	
+                         <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">	
                     </div>
                 
                 <?php }
-                if($count==''){?> <div class="bb-custom-side"><h1>End of Results</h1></div>
+                else{?> <div class="bb-custom-side"><h1>End of Results</h1></div>
                 <?php } ?>
                 </div>
                 <?php $count++; }
