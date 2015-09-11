@@ -34,27 +34,7 @@ catch(PDOException $e)
         <hr>
         <!--Banner and navigation bar !--> 
         
-        <!-- <p> Find a personId: </p>
-
-        <form method='post' action='NameSearchResults.php'>
-            <table>
-                <tr>
-                    <td>First Name</td>
-                    <td><input type='text' name='fname' required /></td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td><input type='text' name='lname' required /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type='submit' value='Search'>
-                    </td>
-                </tr>
-            </table>
-        </form>
-        !-->
+        <img src='images/books.jpg' width='1102' height='541' alt='books'>
     </body>
 </html>
 

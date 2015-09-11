@@ -15,9 +15,9 @@ catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
-$stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
+/*$stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
 $stmt->execute(array($_POST['Name']));
-$_SESSION['publicationId']=$stmt->fetchColumn();
+$_SESSION['publicationId']=$stmt->fetchColumn();*/
 
 ?>
 
@@ -48,100 +48,98 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
         </ul>
         <!--Banner and navigation bar !--> 
     
-                <?php  
-                if($_POST[fromViewAll] != 'y')
+        <?php  
+        if(!isset($_SESSION['continuedSearchResults']))
+        {
+            $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
+            $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
+            $sql->execute(array($_SESSION['personId']));
+            $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+            $row_count = $sql->rowCount();
+            $pathArray=[];
+            array_push($pathArray,"");
+            if ($row_count > 0) 
+            {
+                foreach($resultPageIds as $id)
                 {
-                    $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
+                    //echo $id[Page_PageId]."<br>";
+                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
+                    $sql2->execute(array($id['Page_PageId']));
+                    $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
+                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
+                    array_push($pathArray,$shortPath);
+                    $_SESSION['continuedSearchResults']=$pathArray;
+
                 }
-                
-                $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
-                $sql->execute(array($_SESSION['personId']));
-                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-                $row_count = $sql->rowCount();
-                $pathArray=[];
-                array_push($pathArray,"");
-                if ($row_count > 0) 
-                 {
-                    foreach($resultPageIds as $id)
-                    {
-                        //echo $id[Page_PageId]."<br>";
-                        $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
-                        $sql2->execute(array($id['Page_PageId']));
-                        $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
-                        $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
-                        array_push($pathArray,$shortPath);
-                        
-                        
-                    }
 
-                 } 
-                else 
-                {
-                    
-                    echo "<div class='wrap'>Your search returned 0 results. <br> "
-                    . "<a href='search.php'>New Search</a></div>";
-                    
-                }  
+            } 
+            else 
+            {
 
+                echo "<div class='wrap'>Your search returned 0 results. <br> "
+                . "<a href='search.php'>New Search</a></div>";
 
-if($row_count > 0)
+            }  
+        }
+
+if(isset($_SESSION['continuedSearchResults']))
 { 
-                ?>
+?>
 
-    <div class="container">
-        <div class="bb-custom-wrapper">
-            <div id="bb-bookblock" class="bb-bookblock">
-                <div class="bb-item">
-                    <div class="bb-custom-side">
-                        <!--first page to the right !-->
-                        <h1><a href="SearchResultsViewAll.php"> View All </a></h1>
-                    </div>
-                    <div class="bb-custom-firstpage">
-                         
-                         <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Result Page 1">	
-                    </div>
-                    
-                </div>
-           <?php ?>
-                <?php $count=2;
-                while($count<=$row_count)
-                {               
-                ?>
-                
-                <div class="bb-item">
-                    <div class="bb-custom-side">
-                        
-                        <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">
-                    </div> 
-                    
-                <?php
-                
-                $count++;
-                
-                if($count<=$row_count)
-                {
-                 
-               ?>
-               
-                    <div class="bb-custom-side">
-                         <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">	
-                    </div>
-                
-                <?php }
-                else{?> <div class="bb-custom-side"><h1>End of Results</h1></div>
-                <?php } ?>
-                </div>
-                <?php $count++; }
-              /*  */ ?>
+<div class="container">
+<div class="bb-custom-wrapper">
+    <div id="bb-bookblock" class="bb-bookblock">
+        <div class="bb-item">
+            <div class="bb-custom-side">
+                <!--first page to the right !-->
+                <h1><a href="SearchResultsViewAll.php"> View All </a></h1>
+            </div>
+            <div class="bb-custom-firstpage">
+
+                 <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Result Page 1">	
             </div>
 
-                <nav>
-                    <a id="bb-nav-first" href="#" class="bb-custom-icon bb-custom-icon-first">First page</a>
-                    <a id="bb-nav-prev" href="#" class="bb-custom-icon bb-custom-icon-arrow-left">Previous</a>
-                    <a id="bb-nav-next" href="#" class="bb-custom-icon bb-custom-icon-arrow-right">Next</a>
-                    <a id="bb-nav-last" href="#" class="bb-custom-icon bb-custom-icon-last">Last page</a>
-                </nav>
         </div>
+   <?php ?>
+        <?php $count=2;
+        while($count<=$row_count)
+        {               
+        ?>
+
+        <div class="bb-item">
+            <div class="bb-custom-side">
+
+                <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">
+            </div> 
+
+        <?php
+
+        $count++;
+
+        if($count<=$row_count)
+        {
+
+       ?>
+
+            <div class="bb-custom-side">
+                 <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">	
+            </div>
+
+        <?php }
+        else{?> <div class="bb-custom-side"><h1>End of Results</h1></div>
+        <?php } ?>
+        </div>
+        <?php $count++; }
+      /*  */ ?>
+    </div>
+
+        <nav>
+            <a id="bb-nav-first" href="#" class="bb-custom-icon bb-custom-icon-first">First page</a>
+            <a id="bb-nav-prev" href="#" class="bb-custom-icon bb-custom-icon-arrow-left">Previous</a>
+            <a id="bb-nav-next" href="#" class="bb-custom-icon bb-custom-icon-arrow-right">Next</a>
+            <a id="bb-nav-last" href="#" class="bb-custom-icon bb-custom-icon-last">Last page</a>
+        </nav>
+</div>
     
 
     </div><!-- /container -->

@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION['continuedSearchResults']);//erase any previous search results
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -38,9 +39,28 @@ catch(PDOException $e)
         <form method='post' action='SearchResults.php'>
             <h3>First Name</h3>
             <input type='text' name='fname' required />
+            <br><br>
             <h3>Last Name</h3>
             <input type='text' name='lname' required />
-            <br>
+            <br><br>
+            <!--
+            <h3>Yearbook</h3>
+            <select name="Name">
+               <?php/*
+               $sql = "SELECT Name FROM Publication";
+               $result= $pdo->query($sql);
+               echo "<option selected>All</option>";
+               while($val= $result->fetch()):
+               
+                   $publicationName= $val['Name'];
+                    {
+                   echo "<option>".$publicationName."</option>";
+                    }   
+                endwhile;
+                */
+                ?>
+            </select>!-->
+            <br><br>
             <input type='submit' value='Search'>
                    
         </form>
