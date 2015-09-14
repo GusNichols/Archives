@@ -25,8 +25,8 @@ session_start();
         <br>
        
         
-        <?php if($_SESSION['part']==2){ 
-        echo "<h3> Step " . $_SESSION['part'] . " - File Upload:</h3>"; ?>
+        <?php if($_SESSION['part']==2){ //if the first file has already been uploaded and imported
+        echo "<h3> Step 2 - File Upload:</h3>"; ?>
         <br>
         <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
@@ -36,8 +36,8 @@ session_start();
         <input type="submit" value="Upload File" />
         </form>
         
-        <?php } else { $_SESSION['part']=1;
-        echo "<h3> Step" . $_SESSION['part'] . " - File Upload:</h3>"; ?>
+        <?php } else { $_SESSION['part']=1; //create session variable since in this case it doesn't exist
+        echo "<h3> Step 1 - File Upload:</h3>"; ?>
         <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
         <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
@@ -46,8 +46,9 @@ session_start();
         <p>Name of publication:</p><input type="text" name="name" required>
         <input type="submit" value="Upload File" />
         </form>
-        <?php } ?>
-        
+        <?php  }//end else ?>
+       
+       
        
         </div>
     </body>

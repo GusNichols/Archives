@@ -40,17 +40,17 @@ catch(PDOException $e)
                <?php
                $sql = "SELECT Name FROM Publication";
                $result= $pdo->query($sql);
-               while($val= $result->fetch()):
+               while($val= $result->fetch()): // while getting all publication names from database..
                
                    $publicationName= $val['Name'];
                     {
-                   echo "<option>".$publicationName."</option>";
+                   echo "<option>".$publicationName."</option>"; //..it prints the names into a dropdown box
                     }   
                 endwhile;
                 ?>
             </select>    
              </p>
-        <input type='submit' value='View Yearbook'style="height:50px; width:200px">
+        <input type='submit' value='View Yearbook' style="height:50px; width:200px">
         </form>
         </div>
     </body>

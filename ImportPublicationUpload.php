@@ -42,7 +42,7 @@ catch(PDOException $e)
     
     if($_SESSION['part']==1)
      {
-        //NEED TO FIX MKDIR FUNCTION!!!
+       
         $_SESSION['name']=$_POST['name'];
         $main_path = mkdir("uploads\\".$_SESSION['name']."\\");
         $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
