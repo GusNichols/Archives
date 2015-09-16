@@ -1,5 +1,20 @@
 <?php
 session_start();
+$connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
+    $user ="root";
+    $pass ="root";
+error_reporting(E_ALL);
+ini_set("auto_detect_line_endings",true);
+try {
+        $pdo = new PDO($connString, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      //  echo 'Connected successfully <br>';
+    }
+catch(PDOException $e)
+    {
+        echo 'Connection failed: ' . $e->getMessage();
+        
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +43,7 @@ session_start();
         <?php if($_SESSION['part']==2){ //if the first file has already been uploaded and imported
         echo "<h3> Step 2 - File Upload:</h3>"; ?>
         <br>
-        <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
+        <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
         <p>Please choose the .csv file from the <b>first</b> sheet of the excel worksheet.
             <br>This file contains names, page numbers, descriptions, and types. </p>
@@ -38,7 +53,7 @@ session_start();
         
         <?php } else { $_SESSION['part']=1; //create session variable since in this case it doesn't exist
         echo "<h3> Step 1 - File Upload:</h3>"; ?>
-        <form enctype="multipart/form-data" action="ImportPublicationUpload.php" method="POST">
+        <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
         <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
         <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
         <br>This file contains names and page numbers.</p>
@@ -46,7 +61,79 @@ session_start();
         <p>Name of publication:</p><input type="text" name="name" required>
         <input type="submit" value="Upload File" />
         </form>
-        <?php  }//end else ?>
+        <?php  }//end else 
+        
+        if($_SESSION['part']==1 && $_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            //check for correct file type
+            $info = pathinfo($_FILES['uploadedfile']['name']);
+            if($info['extension'] != 'csv')
+                {
+                    echo "<span class='error'>Only .csv files allowed.</span>";
+                }
+            else //if correct, check if name is valid
+            {
+                $name = $_POST["name"];
+                $name = trim($name);
+                $name = stripslashes($name);
+                $name = htmlspecialchars($name);
+                $q = $pdo->query("SELECT PublicationId FROM Publication WHERE Name='".$name."' ");
+                $duplicateRows= $q->rowCount();
+
+                if($duplicateRows==0) //if name does not already exist
+                {
+                    $_SESSION['name']=$name;
+                    mkdir("uploads\\".$_SESSION['name']."\\");
+                    $main_path = "uploads\\".$_SESSION['name']."\\";
+                    $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
+                    
+                    if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
+                    { ?>
+                        <p>The file has been uploaded successfully. <br>
+                        It is now ready to be imported into the database.</p>
+                        <form action='ImportPublicationPart1.php' method='post'>
+                        <input type='hidden' name='file' value='<?php echo $target_path ?>'>
+                        <p>This process could take several minutes. Please do not close or resubmit this page.</p>
+                        <input type='submit' value='Import Publication'>
+                        </form>
+              <?php } else{ echo "<span class='error'>An error has occured while uploading the file.</span>";}
+
+                }
+                else if($duplicateRows>0) //if name already exists in the database
+                {
+                    echo "<span class='error'>This publication name already exists.</span>";
+                }
+            }
+        }
+        
+        // TODO NEEDS TO BE TESTED
+        if($_SESSION['part']==2 && $_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            //check for correct file type
+            $info = pathinfo($_FILES['uploadedfile']['name']);
+            if($info['extension'] != 'csv')
+                {
+                    echo "<span class='error'>Only .csv files allowed.</span>";
+                }
+            else //if file type is correct, continue
+            {
+                    $main_path = "uploads\\".$_SESSION['name']."\\";
+                    $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
+                    
+                    if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
+                    { ?>
+                        <p>The file has been uploaded successfully.</p>
+                        <form action='ImportPublicationPart2.php' method='post'>
+                        <input type='hidden' name='file' value='<?php echo $target_path ?>'>
+                        <p>Ready to continue. Please do not close or resubmit this page 
+                            after the clicking the button.</p>
+                        <input type='submit' value='Continue'>
+                        </form>
+              <?php } else{ echo "<span class='error'>An error has occured while uploading the file.</span>";}
+            }
+        }
+        
+?>
        
        
        

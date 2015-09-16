@@ -37,17 +37,16 @@ catch(PDOException $e)
     
     // Where the file is going to be placed C:\Users\Lindsey\Documents\NetBeansProjects\GusNicholsArchives\
  
-
+    // TODO SHOULD BE OBSELETE SOON, TEST NEW IMPORT PROCESS BEFORE DELETING
 
     
     if($_SESSION['part']==1)
      {
        
-        $_SESSION['name']=$_POST['name'];
         $main_path = mkdir("uploads\\".$_SESSION['name']."\\");
         $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
         
-        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))  
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))
         {
             echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded successfully. 
             It is now ready to be imported into the database.</p><br>"; ?>
@@ -57,14 +56,15 @@ catch(PDOException $e)
             <input type='submit' value='Import Publication'>
             </form>
         
-        <?php } }
-    else if($_SESSION['part']==2)
+     <?php } else{ echo "An error has occured while uploading the file."; } }
+    if($_SESSION['part']==2)
     {   $main_path = "uploads\\".$_SESSION['name']."\\";
-        $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
-        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))  
+        $target_path = $main_path . basename( $_FILES['uploadedfile']['name']); 
+        if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path))  //TODO fix and transfer over!
         {
             echo "<p> Step " . $_SESSION['part'] . " - The file has been uploaded successfully. 
-        </p><br>";}?>
+        </p><br>";}
+        else{ echo "An error has occured while uploading the file.";}?>
         <form action='ImportPublicationPart2.php' method='post'>
         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
         <p>This can take several more minutes. Please do not close or resubmit this page.</p>

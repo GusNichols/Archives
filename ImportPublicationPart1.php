@@ -38,10 +38,10 @@ catch(PDOException $e)
 
 
  <?php
-   // start Publication table import (working) ---------------
-     $name=$_SESSION['name'];
-     
+   // start Publication table import  ---------------
+  
 try {
+        $name= $_SESSION['name'];
         $sql = "INSERT INTO Publication (Name)
         VALUES ('$name')";
         $pdo->exec($sql);
@@ -61,7 +61,7 @@ catch (Exception $e)
     
     //end Publication table import------------------*/
 
-    //----start person table import (working)----
+    //----start person table import ----
 try
 {
     
@@ -70,7 +70,7 @@ try
     set_time_limit(0);
     
     $data = [];
-    for($i=0; $i<4; $i++) //ignores firt 5 lines
+    for($i=0; $i<4; $i++) //ignores first 5 lines of file
     {
         fgetcsv($fp);
     }
@@ -81,7 +81,7 @@ try
         //check for duplicate entries
         $q = $pdo->query("SELECT * FROM Person WHERE LastName='".$lastName."' AND FirstName='".$firstName."'");
         $duplicateRows= $q->rowCount();
-        if(($duplicateRows)==0)
+        if(($duplicateRows)==0) //if
         {
         // Insert Data
             $sql2 = "INSERT INTO Person (LastName,FirstName)
