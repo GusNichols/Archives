@@ -32,6 +32,7 @@ catch(PDOException $e)
             <li><a href="search.php">New Search</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
+            <li><a href="SearchResults.php">Back to Page View</a></li>
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
@@ -60,9 +61,7 @@ catch(PDOException $e)
                     echo "<img src='".$shortPath."' height='635' width='525' alt='result' >";
                     
                 }
-               echo "<form action='SearchResults.php' method='POST'> <input type='hidden' name='fromViewAll' value='y'>
-                            <input type='submit' value='Back to page view'>
-                    </form>";    
+                  
              } 
             else {
                 echo "No results found.";

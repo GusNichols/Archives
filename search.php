@@ -1,6 +1,9 @@
 <?php
 session_start();
-unset($_SESSION['continuedSearchResults']);//erase any previous search results
+//erase any previous search results
+unset($_SESSION['SearchResults']);
+unset($_SESSION['row_count']);
+unset($_SESSION['SearchDetails']);
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";
@@ -41,7 +44,7 @@ catch(PDOException $e)
             <input type='text' name='fname' required />
             <br><br>
             <h3>Last Name</h3>
-            <input type='text' name='lname' required />
+            <input type='text' name='lname'  />
             <br><br>
             <!--
             <h3>Yearbook</h3>

@@ -45,37 +45,46 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
             <li><a href="importFile.php">Import Publication</a></li>
              <li><a href="search.php">New Search</a></li>
             <li>About</li>
+            <li><a href="SearchResultsViewAll.php"> View All </a></li>
         </ul>
         <!--Banner and navigation bar !--> 
     
         <?php  
-        //TODO fix back to page view from view all
-        //TODO move view all link to nav bar
-        //TODO change for result table details to show on right side
+        
+        
+        //TODO change for result table details to show on right side (set up but doesnt work)
         //TODO add page jump search
         //TODO fix publication search for one yearbook
         
-        if(!isset($_SESSION['continuedSearchResults']))
+        if(!isset($_SESSION['SearchResults'])) //if new search is occuring
         {
             $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
             $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
             $sql->execute(array($_SESSION['personId']));
             $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-            $row_count = $sql->rowCount();
+            $_SESSION['row_count'] = $sql->rowCount();
             $pathArray=[];
             array_push($pathArray,"");
-            if ($row_count > 0) 
+            $detailArray=[];
+            array_push($detailArray,"");
+            if ($_SESSION['row_count'] > 0)
             {
                 foreach($resultPageIds as $id)
                 {
                     //echo $id[Page_PageId]."<br>";
+                   /* $q= $pdo->prepare("SELECT Description FROM Result WHERE Page_PageId = ? "); //TODO FIX!
+                    $sql2->execute(array($id['Page_PageId']));
+                    $resultDetail=$q->fetch(PDO::FETCH_ASSOC);
+                    array_push($detailArray,$resultDetail['Description']);
+                    $_SESSION['SearchDetails']=$detailArray; */
+                    
                     $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
                     $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
                     $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
                     array_push($pathArray,$shortPath);
-                    $_SESSION['continuedSearchResults']=$pathArray;
-
+                    $_SESSION['SearchResults']=$pathArray;
+                    
                 }
 
             } 
@@ -88,54 +97,47 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
             }  
         }
 
-if(isset($_SESSION['continuedSearchResults']))
+if(isset($_SESSION['SearchResults']))//if search results have already been acquired 
 { 
 ?>
 
 <div class="container">
 <div class="bb-custom-wrapper">
     <div id="bb-bookblock" class="bb-bookblock">
-        <div class="bb-item">
-            <div class="bb-custom-side">
-                <!--first page to the right !-->
-                <h1><a href="SearchResultsViewAll.php"> View All </a></h1>
-            </div>
-            <div class="bb-custom-firstpage">
-
-                 <img src="<?php echo $pathArray[1]; ?>" height="635" width="525"  alt="Result Page 1">	
-            </div>
-
-        </div>
+        
    <?php ?>
-        <?php $count=2;
-        while($count<=$row_count)
-        {               
+        <?php $count=1;
+        while($count<=$_SESSION['row_count'])
+        {  
+           
+       
         ?>
-
-        <div class="bb-item">
+         <div class="bb-item">
             <div class="bb-custom-side">
 
-                <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">
+                <p><?php //echo $_SESSION['SearchDetails']['Description'][$count]; //TODO currently only works without this. FIX?></p>
+                
             </div> 
 
         <?php
 
-        $count++;
+        //$count++;
 
-        if($count<=$row_count)
+        if($count<=$_SESSION['row_count'])
         {
 
        ?>
 
-            <div class="bb-custom-side">
-                 <img src="<?php echo $pathArray[$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">	
+            <div class="bb-custom-firstpage">
+                 <img src="<?php echo $_SESSION['SearchResults'][$count];?>" height="635" width="525"  alt="Result Page <?php echo $count?>">	
             </div>
 
         <?php }
         else{?> <div class="bb-custom-side"><h1>End of Results</h1></div>
         <?php } ?>
         </div>
-        <?php $count++; }
+        <?php $count++; 
+        }
       /*  */ ?>
     </div>
 
@@ -150,19 +152,38 @@ if(isset($_SESSION['continuedSearchResults']))
 
     </div><!-- /container -->
 
-<?php } function findName($last, $first, $pdo)
+<?php } 
+
+function findName($last, $first, $pdo)
     {
+        $last = trim($last);
+        $last = stripslashes($last);
+        $last = htmlspecialchars($last);
+        
+        $first = trim($first);
+        $first = stripslashes($first);
+        $first = htmlspecialchars($first);
         //manual return since it can't find personID 1 for "unknown" entries
        if($last === "Unknown")
         {
           return 1;
         }
-       
+       if(($last!=NULL) && ($first!=NULL))//if searching with both first and last names
+       {
         $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
         $stmt->execute(array($last, $first));
         $results = $stmt->fetchColumn();
         return $results;
-        
+       }
+       
+       if($last==NULL)//if only searching for first name TODO FIX THIS!
+       {
+        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE FirstName=?");
+        $stmt->execute(array($first));
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+       }
+       
     }
     ?>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
