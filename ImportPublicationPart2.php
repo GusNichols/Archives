@@ -24,7 +24,7 @@ catch(PDOException $e)
         <title></title>
     </head>
     <body>
-        <?php echo $_SESSION['publicationId']; ?>
+        <?php //echo $_SESSION['publicationId']; ?>
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -63,7 +63,7 @@ catch(PDOException $e)
             $pdo->exec($sql3);
         }
     }
-    echo " Page numbers imported sucessfully. ";
+   // echo " Page numbers imported sucessfully. ";
 }
 catch (Exception $e)
     {
@@ -104,7 +104,7 @@ try
         $pdo->exec($sql4);
         
     }
-    echo "all imports complete";
+   // echo "all imports complete";
     fclose($file2);
     
 }
@@ -147,7 +147,9 @@ function findPage($publication, $page, $pdo)
     }
         $_SESSION['part']=3;
         ?>
+        <div class="wrap">
         <p>All .csv files have been imported successfully. Please continue to 
             <a href="UploadPageFiles.php">the image importing process</a>. </p>
+        </div>
     </body>
 </html>

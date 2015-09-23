@@ -27,7 +27,7 @@ catch(PDOException $e)
     </head>
     <body>
         <?php 
-        echo $_SESSION['publicationId']; ?>
+        //echo $_SESSION['publicationId']; ?>
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -37,7 +37,7 @@ catch(PDOException $e)
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
-        <div class="wrap">
+        
             <?php
     if($_SESSION['part']==3)
     {
@@ -55,9 +55,11 @@ catch(PDOException $e)
             {
              //echo $pageNum.":".$pageId."<br />";
              $sql=$pdo->prepare("UPDATE Page SET Image_Path=? WHERE PageId=?");
-             try{
+             try
+             {
              $sql->execute(array($imagePath,$pageId));
-             echo "Page ".$pageNum."imported <br />"; }
+             //echo "Page ".$pageNum."imported <br />"; 
+             }
             catch(PDOException $e)
             {
                 echo 'Error: ' . $e->getMessage();
@@ -70,7 +72,7 @@ catch(PDOException $e)
                         . "VALUES(?,?,?)");
                 try{
                 $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
-                echo "Page ".$pageNum." created and imported <br />";
+                //echo "Page ".$pageNum." created and imported <br />";
                 
                 }
                 catch(Exception $e)
@@ -82,7 +84,8 @@ catch(PDOException $e)
         } //end foreach        
     } //end if          
                 //session_unset(); //erase temporary values used for importing
-            ?>             
+            ?> 
+        <div class="wrap">
         
             <h1>Congratulations! This Yearbook is ready to be viewed.</h1>
     

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </head>
     
     <body>
-       <?php echo $_SESSION['publicationId']; ?>
+       <?php //echo $_SESSION['publicationId']; ?>
      <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <input type="file" name="files[]" id="files" multiple>
                 <input class="button" type="submit" value="Upload" />
             </form>
-            <p>After clicking the upload button, refer to the bottom of the page
+            <p>After clicking the upload button, refer to the bottom left corner of the page
             for upload progress.</p>
             <p>When the upload is complete <a href="ImportPublicationPart3.php">Continue to the next step</a></p>
         </div>

@@ -50,7 +50,7 @@ try {
         $stmt->execute(array($name));
         $publicationId = $stmt->fetchColumn();
         $_SESSION['publicationId']=$publicationId;
-        echo " <p>New Publication record created successfully.</p> <br> ";
+       // echo " <p>New Publication record created successfully.</p> <br> ";
     } 
 
 catch (Exception $e) 
@@ -89,7 +89,7 @@ try
             $pdo->exec($sql2);
         }
     }
-    echo " <p>Person table populated sucessfully.</p><hr> ";
+  //  echo " <p>Person table populated sucessfully.</p><hr> ";
     
     fclose($file);
 }
@@ -102,10 +102,12 @@ catch (Exception $e)
     $_SESSION['part']=2;
     
     ?>
+        <div class="wrap">
     <form action='ImportFile.php' method='post'>
         <p>Please continue to the second part of the import process.</p>
         <input type='submit' value='Upload the next file'>
         </form>
+        </div>
 </body>
 </html>
 
