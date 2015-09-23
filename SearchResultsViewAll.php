@@ -65,7 +65,7 @@ catch(PDOException $e)
                     </form>";    
              } 
             else {
-                echo "Sorry, no results found.";
+                echo "No results found.";
             }  
 
             

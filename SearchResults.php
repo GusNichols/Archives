@@ -49,6 +49,12 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
         <!--Banner and navigation bar !--> 
     
         <?php  
+        //TODO fix back to page view from view all
+        //TODO move view all link to nav bar
+        //TODO change for result table details to show on right side
+        //TODO add page jump search
+        //TODO fix publication search for one yearbook
+        
         if(!isset($_SESSION['continuedSearchResults']))
         {
             $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
