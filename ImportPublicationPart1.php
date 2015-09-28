@@ -70,23 +70,25 @@ try
     set_time_limit(0);
     
     $data = [];
-    for($i=0; $i<4; $i++) //ignores first 5 lines of file
+    for($i=1; $i<4; $i++) //ignores first 4 lines of file
     {
         fgetcsv($fp);
     }
     while (($data = fgetcsv($fp)) !== FALSE)
     {
-        $lastName = trim(addslashes($data[0]));
-        $firstName = trim(addslashes($data[1]));
+        $lastName = trim($data[0]);
+        $firstName = trim($data[1]);
+        
         //check for duplicate entries
-        $q = $pdo->query("SELECT * FROM Person WHERE LastName='".$lastName."' AND FirstName='".$firstName."'");
+        $q = $pdo->prepare("SELECT * FROM Person WHERE LastName=? AND FirstName=?");
+        $q->execute(array($lastName,$firstName));
         $duplicateRows= $q->rowCount();
         if(($duplicateRows)==0) //if
         {
         // Insert Data
-            $sql2 = "INSERT INTO Person (LastName,FirstName)
-            VALUES ('".$lastName."','".$firstName."')";
-            $pdo->exec($sql2);
+            $sql2=$pdo->prepare("INSERT INTO Person (LastName,FirstName)
+            VALUES (?,?)");
+            $sql2->execute(array($lastName,$firstName));
         }
     }
   //  echo " <p>Person table populated sucessfully.</p><hr> ";

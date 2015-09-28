@@ -18,8 +18,10 @@ catch(PDOException $e)
 /*$stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
 $stmt->execute(array($_POST['Name']));
 $_SESSION['publicationId']=$stmt->fetchColumn();*/
-
+            //TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT
 ?>
+
+            
 
 <!DOCTYPE html>
 <html lang="en" class="no-js demo-4">
@@ -58,7 +60,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
         
         if(!isset($_SESSION['SearchResults'])) //if new search is occuring
         {
-            $_SESSION['personId']= findName($_POST['lname'],$_POST['fname'],$pdo);
+            $_SESSION['personId']= findName(mysql_real_escape_string($_POST['lname']),mysql_real_escape_string($_POST['fname']),$pdo);
             $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
             $sql->execute(array($_SESSION['personId']));
             $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);

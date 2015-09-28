@@ -45,7 +45,7 @@ catch(PDOException $e)
     $fp2 = fopen($file2,'r');
     set_time_limit(0);
     $data2 = [];
-    for($i=0; $i<4; $i++) //ignores firt 5 lines
+    for($i=0; $i<4; $i++) //ignores first 4 lines
     {
         fgetcsv($fp2);
     }
@@ -87,21 +87,24 @@ try
      while (($data3 = fgetcsv($fp2)) !== FALSE)
     {  
         $lastName = trim($data3[0]);
-     
+        
+        
         $firstName = trim($data3[1]);
-       
+        
+        
         $personId  = findName($lastName, $firstName, $pdo);
         $page = trim($data3[2]);
      
         $pageId = findPage($publicationId, $page,  $pdo);
         $description = trim($data3[3]);
+        
       
         $type = trim($data3[4]);
      
         // Insert Data
-        $sql4 = "INSERT INTO Result (Description,Type,Person_PersonId,Page_PageId,Publication_PublicationId)
-        VALUES ('".$description."','".$type."','".$personId."','".$pageId."','".$publicationId."')";
-        $pdo->exec($sql4);
+        $sql4 = $pdo->prepare("INSERT INTO Result (Description,Type,Person_PersonId,Page_PageId,Publication_PublicationId)
+        VALUES (?,?,?,?,?)");
+        $sql4->execute(array($description,$type,$personId,$pageId,$publicationId));
         
     }
    // echo "all imports complete";
