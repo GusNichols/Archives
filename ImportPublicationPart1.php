@@ -76,8 +76,8 @@ try
     }
     while (($data = fgetcsv($fp)) !== FALSE)
     {
-        $lastName = trim($data[0]);
-        $firstName = trim($data[1]);
+        $lastName = trim(addslashes($data[0]));
+        $firstName = trim(addslashes($data[1]));
         //check for duplicate entries
         $q = $pdo->query("SELECT * FROM Person WHERE LastName='".$lastName."' AND FirstName='".$firstName."'");
         $duplicateRows= $q->rowCount();
@@ -103,10 +103,7 @@ catch (Exception $e)
     
     ?>
         <div class="wrap">
-    <form action='ImportFile.php' method='post'>
-        <p>Please continue to the second part of the import process.</p>
-        <input type='submit' value='Upload the next file'>
-        </form>
+            <a href="ImportFile.php">Upload the next file</a>
         </div>
 </body>
 </html>

@@ -44,7 +44,7 @@ catch(PDOException $e)
         echo "<h3> Step 2 - File Upload:</h3>"; ?>
         <br>
         <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-        <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+        
         <p>Please choose the .csv file from the <b>first</b> sheet of the excel worksheet.
             <br>This file contains names, page numbers, descriptions, and types. </p>
         <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
@@ -54,7 +54,7 @@ catch(PDOException $e)
         <?php } else { $_SESSION['part']=1; //create session variable since in this case it doesn't exist
         echo "<h3> Step 1 - File Upload:</h3>"; ?>
         <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
-        <input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+        
         <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
         <br>This file contains names and page numbers.</p>
         <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
@@ -105,8 +105,9 @@ catch(PDOException $e)
                 }
             }
         }
+       
         
-        // TODO NEEDS TO BE TESTED
+        
         if($_SESSION['part']==2 && $_SERVER["REQUEST_METHOD"] == "POST")
         {
             //check for correct file type
@@ -116,7 +117,7 @@ catch(PDOException $e)
                     echo "<span class='error'>Only .csv files allowed.</span>";
                 }
             else //if file type is correct, continue
-            {
+            {       
                     $main_path = "uploads\\".$_SESSION['name']."\\";
                     $target_path = $main_path . basename( $_FILES['uploadedfile']['name']);
                     
