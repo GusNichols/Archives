@@ -66,19 +66,18 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
             $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['row_count'] = $sql->rowCount();
             $pathArray=[];
-            array_push($pathArray,"");
-            $detailArray=[];
-            array_push($detailArray,"");
-            if ($_SESSION['row_count'] > 0)
+            array_push($pathArray,""); //fills [0] space in array
+
+            if ($_SESSION['row_count'] > 0) // if at least one result is returned
             {
                 foreach($resultPageIds as $id)
                 {
                     //echo $id[Page_PageId]."<br>";
-                   /* $q= $pdo->prepare("SELECT Description FROM Result WHERE Page_PageId = ? "); //TODO FIX!
-                    $sql2->execute(array($id['Page_PageId']));
-                    $resultDetail=$q->fetch(PDO::FETCH_ASSOC);
-                    array_push($detailArray,$resultDetail['Description']);
-                    $_SESSION['SearchDetails']=$detailArray; */
+                    $q=$pdo->query("SELECT Description FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
+                    //TODO FIX!
+                    //TODO needs to take all description and type pairs to be displayed next to correct image.
+                    //TODO figure out if multidementional array is needed
+                    
                     
                     $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
@@ -88,7 +87,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
                     $_SESSION['SearchResults']=$pathArray;
                     
                 }
-
+                    
             } 
             else 
             {
@@ -116,8 +115,25 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
         ?>
          <div class="bb-item">
             <div class="bb-custom-side">
+                
+                <table>
+                <thead>
+                <tr>
+                <th>Description</th>
+                <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                <tr>
+                    <td><?php /*TODO: result table information for person on adjacent page goes here*/;?></td>
+                
+                </tr>
+                
+                </tbody>
+                </table>
 
-                <p><?php //echo $_SESSION['SearchDetails']['Description'][$count]; //TODO currently only works without this. FIX?></p>
+
                 
             </div> 
 
