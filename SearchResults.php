@@ -15,10 +15,10 @@ catch(PDOException $e)
     {
         echo 'Connection failed: ' . $e->getMessage();
     }
-/*$stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
-$stmt->execute(array($_POST['Name']));
-$_SESSION['publicationId']=$stmt->fetchColumn();*/
-            //TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT
+
+            
+
+//TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT
 ?>
 
             
@@ -39,7 +39,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
         <script src="js/modernizr.custom.js"></script>
 </head>
 <body>
-     <!--Banner and navigation bar !-->
+     <!--Banner and navigation bar commented out to make more room for result pages !-->
         <!--<img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">!-->
         <ul>
             <li><a href="index.php">Home</a></li>
@@ -60,9 +60,25 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
         
         if(!isset($_SESSION['SearchResults'])) //if new search is occuring
         {
-            $_SESSION['personId']= findName(mysql_real_escape_string($_POST['lname']),mysql_real_escape_string($_POST['fname']),$pdo);
-            $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
-            $sql->execute(array($_SESSION['personId']));
+            $_SESSION['personId']= findName(mysql_real_escape_string($_POST['lname']),
+                    mysql_real_escape_string($_POST['fname']),$pdo);
+            
+            if($_POST['PubName']=='All')// if searching through all yearbooks in database
+            {
+                $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
+                $sql->execute(array($_SESSION['personId']));
+            }
+            else //TODO FIX - Always displays all results
+            {
+                $stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
+                $stmt->execute(array($_POST['PubName']));
+                $_SESSION['publicationId']=$stmt->fetchColumn();
+                
+                $sql=$pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=? "
+                        . "AND Publication_PublicationId=?");
+                $sql->execute(array($_SESSION['personId'],$_SESSION['publicationId']));
+            }
+            
             $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
             $_SESSION['row_count'] = $sql->rowCount();
             $pathArray=[];
@@ -71,21 +87,22 @@ $_SESSION['publicationId']=$stmt->fetchColumn();*/
             if ($_SESSION['row_count'] > 0) // if at least one result is returned
             {
                 foreach($resultPageIds as $id)
-                {
-                    //echo $id[Page_PageId]."<br>";
-                    $q=$pdo->query("SELECT Description FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
-                    //TODO FIX!
-                    //TODO needs to take all description and type pairs to be displayed next to correct image.
-                    //TODO figure out if multidementional array is needed
+                {        
+                        //echo $id[Page_PageId]."<br>";
+                        $q=$pdo->query("SELECT Description FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
+                        //TODO FIX!
+                        //TODO needs to take all description and type pairs to be displayed next to correct image.
+                        //TODO figure out if multidementional array is needed
+
+
+                        $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
+                        $sql2->execute(array($id['Page_PageId']));
+                        $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
+                        $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
+                        array_push($pathArray,$shortPath);
+                        $_SESSION['SearchResults']=$pathArray;
                     
-                    
-                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
-                    $sql2->execute(array($id['Page_PageId']));
-                    $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
-                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
-                    array_push($pathArray,$shortPath);
-                    $_SESSION['SearchResults']=$pathArray;
-                    
+                  
                 }
                     
             } 

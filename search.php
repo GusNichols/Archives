@@ -46,10 +46,10 @@ catch(PDOException $e)
             <h3>Last Name</h3>
             <input type='text' name='lname'  />
             <br><br>
-            <!--
+            
             <h3>Yearbook</h3>
-            <select name="Name">
-               <?php/*
+            <select name="PubName">
+               <?php
                $sql = "SELECT Name FROM Publication";
                $result= $pdo->query($sql);
                echo "<option selected>All</option>";
@@ -60,9 +60,9 @@ catch(PDOException $e)
                    echo "<option>".$publicationName."</option>";
                     }   
                 endwhile;
-                */
+                
                 ?>
-            </select>!-->
+            </select>
             <br><br>
             <input type='submit' value='Search'>
                    
