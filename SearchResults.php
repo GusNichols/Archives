@@ -60,27 +60,33 @@ catch(PDOException $e)
         
         if(!isset($_SESSION['SearchResults'])) //if new search is occuring
         {
+            
             $_SESSION['personId']= findName(mysql_real_escape_string($_POST['lname']),
                     mysql_real_escape_string($_POST['fname']),$pdo);
             
             if($_POST['PubName']=='All')// if searching through all yearbooks in database
             {
+                
                 $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
                 $sql->execute(array($_SESSION['personId']));
+                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION['row_count'] = $sql->rowCount();
             }
             else //TODO FIX - Always displays all results
             {
-                $stmt=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
-                $stmt->execute(array($_POST['PubName']));
-                $_SESSION['publicationId']=$stmt->fetchColumn();
+                //find publication id
+                $sql=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
+                $sql->execute(array($_POST['PubName']));
+                $_SESSION['publicationId']=$sql->fetchColumn();
                 
-                $sql=$pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=? "
-                        . "AND Publication_PublicationId=?");
+                $sql=$pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=? && Publication_PublicationId=?");
                 $sql->execute(array($_SESSION['personId'],$_SESSION['publicationId']));
+                
+                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION['row_count'] = $sql->rowCount();
             }
             
-            $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-            $_SESSION['row_count'] = $sql->rowCount();
+            
             $pathArray=[];
             array_push($pathArray,""); //fills [0] space in array
 
@@ -94,7 +100,7 @@ catch(PDOException $e)
                         //TODO needs to take all description and type pairs to be displayed next to correct image.
                         //TODO figure out if multidementional array is needed
 
-
+                        //get image paths for search result pages
                         $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                         $sql2->execute(array($id['Page_PageId']));
                         $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);

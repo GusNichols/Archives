@@ -44,7 +44,7 @@ catch(PDOException $e)
             <input type='text' name='fname' required />
             <br><br>
             <h3>Last Name</h3>
-            <input type='text' name='lname'  />
+            <input type='text' name='lname' required />
             <br><br>
             
             <h3>Yearbook</h3>

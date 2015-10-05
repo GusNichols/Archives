@@ -37,38 +37,22 @@ catch(PDOException $e)
         <hr>
         <!--Banner and navigation bar !--> 
         
-        
         <div class='wrap'>
         <?php
         
-           
-            
-            
-            $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
-            $sql->execute(array($_SESSION['personId']));
-            $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-            $row_count = $sql->rowCount();
-            echo "<h1>". $row_count. " Results:</h1><br>";
-            if ($row_count > 0) 
-             {
-                foreach($resultPageIds as $id)
+            echo "<h1>". $_SESSION['row_count']. " Results:</h1><br>";
+            if ($_SESSION['row_count'] > 0) 
+             {  
+                
+                for($count=1;$count<=$_SESSION['row_count'];$count++)
                 {
-                    
-                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
-                    $sql2->execute(array($id['Page_PageId']));
-                    $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
-                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
-                    echo "<img src='".$shortPath."' height='635' width='525' alt='result' >";
-                    
-                }
-                  
+                    echo "<img src='".$_SESSION['SearchResults'][$count]."' height='635' width='525' alt='result' >";
+                }  
              } 
-            else {
+            else 
+             {
                 echo "No results found.";
-            }  
-
-            
-            
+             }  
         ?>
         </div>
     </body>
