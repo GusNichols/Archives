@@ -65,14 +65,37 @@ catch(PDOException $e)
                     mysql_real_escape_string($_POST['fname']),$pdo);
             
             if($_POST['PubName']=='All')// if searching through all yearbooks in database
-            {
-                
+            {   
                 $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
                 $sql->execute(array($_SESSION['personId']));
                 $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
                 $_SESSION['row_count'] = $sql->rowCount();
+                
+                /* TODO Find way to find pageIds when $_SESSION['personId'] is an array with multiple PersonIds
+                $ids = join(',',$_SESSION['personId']);
+                print_r($ids);
+                $sql = $pdo->query("SELECT * FROM galleries WHERE id IN ($ids)");
+                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION['row_count'] = $sql->rowCount();
+                */
+                /*
+                $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId IN (?)");
+                $sql->execute($_SESSION['personId']);
+                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION['row_count'] = $sql->rowCount();
+                */
+                
+                /* // method 2 for returning pageIds with $_SESSION['personId'] as an array
+                $in = join(',', array_fill(0, count($_SESSION['personId']), '?'));
+                $sql ="SELECT Page_PageId FROM result WHERE Person_PersonID IN ('".$in."')";            
+                $Psql = $pdo->prepare($sql);
+                $Psql->execute($_SESSION['personId']);
+                $resultPageIds=$Psql->fetchAll(PDO::FETCH_ASSOC);
+                $_SESSION['row_count'] = $Psql->rowCount();
+                 * 
+                 */
             }
-            else //TODO FIX - Always displays all results
+            else // if looking through a specific yearbook
             {
                 //find publication id
                 $sql=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
@@ -95,7 +118,7 @@ catch(PDOException $e)
                 foreach($resultPageIds as $id)
                 {        
                         //echo $id[Page_PageId]."<br>";
-                        $q=$pdo->query("SELECT Description FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
+                        //$q=$pdo->query("SELECT Description, Type FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
                         //TODO FIX!
                         //TODO needs to take all description and type pairs to be displayed next to correct image.
                         //TODO figure out if multidementional array is needed
@@ -107,7 +130,7 @@ catch(PDOException $e)
                         $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
                         array_push($pathArray,$shortPath);
                         $_SESSION['SearchResults']=$pathArray;
-                    
+                        print_r($pathArray);
                   
                 }
                     
@@ -197,13 +220,18 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
 
 function findName($last, $first, $pdo)
     {
-        $last = trim($last);
-        $last = stripslashes($last);
-        $last = htmlspecialchars($last);
-        
-        $first = trim($first);
-        $first = stripslashes($first);
-        $first = htmlspecialchars($first);
+        if($last!=NULL)
+        {
+            $last = trim($last);
+            $last = stripslashes($last);
+            $last = htmlspecialchars($last);
+        }
+        if($first!=NULL)
+        {
+            $first = trim($first);
+            $first = stripslashes($first);
+            $first = htmlspecialchars($first);
+        }
         //manual return since it can't find personID 1 for "unknown" entries
        if($last === "Unknown")
         {
@@ -213,11 +241,11 @@ function findName($last, $first, $pdo)
        {
         $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
         $stmt->execute(array($last, $first));
-        $results = $stmt->fetchColumn();
+        $results = $stmt->fetchColumn(); //TODO needs to use fetchAll(PDO::FETCH_ASSOC);
         return $results;
        }
        
-       if($last==NULL)//if only searching for first name TODO FIX THIS!
+       if($last==NULL)//if only searching with first name TODO FIX THIS!
        {
         $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE FirstName=?");
         $stmt->execute(array($first));
@@ -225,6 +253,13 @@ function findName($last, $first, $pdo)
         return $results;
        }
        
+        if($first==NULL)//if only searching with last name TODO FIX THIS!
+       {
+        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=?");
+        $stmt->execute(array($first));
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+       }
     }
     ?>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

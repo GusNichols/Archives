@@ -41,7 +41,7 @@ catch(PDOException $e)
         <h1>Person Search</h1>
         <form method='post' action='SearchResults.php'>
             <h3>First Name</h3>
-            <input type='text' name='fname' required />
+            <input type='text' name='fname' />
             <br><br>
             <h3>Last Name</h3>
             <input type='text' name='lname' required />
