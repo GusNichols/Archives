@@ -39,13 +39,18 @@ catch(PDOException $e)
         <!--Banner and navigation bar !--> 
         
             <?php
+        
     if($_SESSION['part']==3)
-    {
-        foreach(glob("C:\\MAMP\\htdocs\\GusNicholsArchives\\uploads\\".$_SESSION['name'].
-                "\\*.jpg", GLOB_NOSORT) as $imagePath)        
+    {   
+        $beginPath= "C:\\MAMP\\htdocs\\GusNicholsArchives\\";
+        $permanentPath= "uploads\\" . $_SESSION['name']. "\\";
+        
+        foreach(glob($beginPath.$permanentPath.
+                "*.jpg", GLOB_NOSORT) as $imagePath)        
         {  
             $imageName= basename($imagePath);
            // echo $imageName;
+            $DBPath= $permanentPath . $imageName;
             $pageNum= extractPageNumber($imageName);
            // echo $pageNum;
             $stmt = $pdo->prepare("SELECT PageId FROM Page WHERE PageNumber=? AND Publication_PublicationId=?");
@@ -57,7 +62,7 @@ catch(PDOException $e)
              $sql=$pdo->prepare("UPDATE Page SET Image_Path=? WHERE PageId=?");
              try
              {
-             $sql->execute(array($imagePath,$pageId));
+             $sql->execute(array($DBPath,$pageId));
              //echo "Page ".$pageNum."imported <br />"; 
              }
             catch(PDOException $e)
@@ -71,7 +76,7 @@ catch(PDOException $e)
                 $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID)"
                         . "VALUES(?,?,?)");
                 try{
-                $sql->execute(array($pageNum,$imagePath,$_SESSION['publicationId']));
+                $sql->execute(array($pageNum,$DBPath,$_SESSION['publicationId']));
                 //echo "Page ".$pageNum." created and imported <br />";
                 
                 }

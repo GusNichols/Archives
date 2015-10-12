@@ -46,7 +46,8 @@ catch(PDOException $e)
             <h3>Last Name</h3>
             <input type='text' name='lname' required />
             <br><br>
-            
+            <p>If searching for a building, company, or group (ex. a social club) 
+                use the last name textbox only</p>
             <h3>Yearbook</h3>
             <select name="PubName">
                <?php

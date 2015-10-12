@@ -52,7 +52,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 $sql= $pdo->prepare("SELECT Image_Path from Page WHERE Publication_PublicationId=? AND PageNumber=?");
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath = $sql->fetchColumn();
-                $newPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath);
+                
                      
                 ?>
           
@@ -61,7 +61,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                         <!-- blank for first page to the right !-->
                      </div> 
                      <div class="bb-custom-firstpage">
-                         <img src="<?php echo $newPath?>" height="635" width="525"  alt="Sheaf Page 1">	
+                         <img src="<?php echo $imagePath?>" height="635" width="525"  alt="Sheaf Page 1">	
                      </div>
                     
                 </div>
@@ -72,13 +72,13 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
 
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath2 = $sql->fetchColumn();
-                $newPath2=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath2); 
+                 
                 
                 ?>
                 
                 <div class="bb-item">
                     <div class="bb-custom-side">
-                        <img src="<?php echo $newPath2?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">
+                        <img src="<?php echo $imagePath2?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">
                     </div> 
                     
                 <?php
@@ -86,7 +86,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 $count++;
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath3 = $sql->fetchColumn();
-                $newPath3=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $imagePath3); 
+                
                 if($imagePath3==false)
                 {
                    $count='';
@@ -96,7 +96,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                ?>
                
                     <div class="bb-custom-side">
-                         <img src="<?php echo $newPath3?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">	
+                         <img src="<?php echo $imagePath3?>" height="635" width="525"  alt="Sheaf Page <?php echo $count?>">	
                     </div>
                 
                 <?php }

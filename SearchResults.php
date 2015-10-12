@@ -18,7 +18,7 @@ catch(PDOException $e)
 
             
 
-//TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT
+//TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT (possibly done)
 ?>
 
             
@@ -54,9 +54,9 @@ catch(PDOException $e)
         <?php  
         
         
-        //TODO change for result table details to show on right side (set up but doesnt work)
+        //TODO change for result table details to show on right side
         //TODO add page jump search
-        //TODO fix publication search for one yearbook
+        
         
         if(!isset($_SESSION['SearchResults'])) //if new search is occuring
         {
@@ -117,20 +117,20 @@ catch(PDOException $e)
             {
                 foreach($resultPageIds as $id)
                 {        
-                        //echo $id[Page_PageId]."<br>";
-                        //$q=$pdo->query("SELECT Description, Type FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
-                        //TODO FIX!
-                        //TODO needs to take all description and type pairs to be displayed next to correct image.
-                        //TODO figure out if multidementional array is needed
+                    //echo $id[Page_PageId]."<br>";
+                    //$q=$pdo->query("SELECT Description, Type FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
+                    //TODO FIX!
+                    //TODO needs to take all publication name,description and type results to be displayed next to correct image.
+                    //TODO figure out if multidementional array is needed
 
-                        //get image paths for search result pages
-                        $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
-                        $sql2->execute(array($id['Page_PageId']));
-                        $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
-                        $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
-                        array_push($pathArray,$shortPath);
-                        $_SESSION['SearchResults']=$pathArray;
-                        print_r($pathArray);
+                    //get image paths for search result pages
+                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
+                    $sql2->execute(array($id['Page_PageId']));
+                    $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
+                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
+                    array_push($pathArray,$shortPath);
+                    $_SESSION['SearchResults']=$pathArray;
+                        
                   
                 }
                     
@@ -165,14 +165,17 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
                 <table>
                 <thead>
                 <tr>
+                <th>Page Number</th>
                 <th>Description</th>
                 <th>Type</th>
+                
+                    
                 </tr>
                 </thead>
                 <tbody>
                 
                 <tr>
-                    <td><?php /*TODO: result table information for person on adjacent page goes here*/;?></td>
+                    <td><?php echo extractPageNumber($_SESSION['SearchResults'][$count]) ;?></td>
                 
                 </tr>
                 
@@ -220,13 +223,13 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
 
 function findName($last, $first, $pdo)
     {
-        if($last!=NULL)
+        if($last != NULL || "")
         {
             $last = trim($last);
             $last = stripslashes($last);
             $last = htmlspecialchars($last);
         }
-        if($first!=NULL)
+        if($first != NULL || "")
         {
             $first = trim($first);
             $first = stripslashes($first);
@@ -237,30 +240,31 @@ function findName($last, $first, $pdo)
         {
           return 1;
         }
-       if(($last!=NULL) && ($first!=NULL))//if searching with both first and last names
+       if(($last != NULL || "") && ($first != NULL || ""))//if searching with both first and last names
        {
         $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
         $stmt->execute(array($last, $first));
-        $results = $stmt->fetchColumn(); //TODO needs to use fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchColumn();
         return $results;
        }
        
-       if($last==NULL)//if only searching with first name TODO FIX THIS!
+        if($first==NULL || "")//if only searching with last name
        {
-        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE FirstName=?");
-        $stmt->execute(array($first));
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $results;
-       }
-       
-        if($first==NULL)//if only searching with last name TODO FIX THIS!
-       {
-        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=?");
-        $stmt->execute(array($first));
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND Firstname='' ");
+        $stmt->execute(array($last));
+        $results = $stmt->fetchColumn(); ////needs to use fetchAll(PDO::FETCH_ASSOC) eventually
         return $results;
        }
     }
+    
+    function extractPageNumber($imageName)
+{
+    $start  = strpos($imageName, '(');
+    $end    = strpos($imageName, ')', $start + 3);
+    $length = $end - $start;
+    $pageNum = substr($imageName, $start + 4, $length - 4);
+        return $pageNum;
+}
     ?>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
             <script src="js/jquerypp.custom.js"></script>
