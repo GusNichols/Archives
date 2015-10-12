@@ -165,17 +165,18 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
                 <table>
                 <thead>
                 <tr>
+                <th>Publication</th>
                 <th>Page Number</th>
                 <th>Description</th>
                 <th>Type</th>
-                
                     
                 </tr>
                 </thead>
                 <tbody>
                 
                 <tr>
-                    <td><?php echo extractPageNumber($_SESSION['SearchResults'][$count]) ;?></td>
+                    <td><?php echo extractPublicationName($_SESSION['SearchResults'][$count]); echo " ";
+                    echo extractPageNumber($_SESSION['SearchResults'][$count]) ;?></td>
                 
                 </tr>
                 
@@ -265,6 +266,15 @@ function findName($last, $first, $pdo)
     $pageNum = substr($imageName, $start + 4, $length - 4);
         return $pageNum;
 }
+   ///  TODO fix function!
+   function extractPublicationName($imageName)
+{
+    $start  = strpos($imageName, '\\');
+    $end    = strrpos($imageName, '\\');
+    $length = $end - $start;
+    $pubName = substr($imageName, $start+1, $length-1);
+        return $pubName;
+} //*/
     ?>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
             <script src="js/jquerypp.custom.js"></script>
