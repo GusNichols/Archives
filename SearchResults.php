@@ -70,30 +70,7 @@ catch(PDOException $e)
                 $sql->execute(array($_SESSION['personId']));
                 $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
                 $_SESSION['row_count'] = $sql->rowCount();
-                
-                /* TODO Find way to find pageIds when $_SESSION['personId'] is an array with multiple PersonIds
-                $ids = join(',',$_SESSION['personId']);
-                print_r($ids);
-                $sql = $pdo->query("SELECT * FROM galleries WHERE id IN ($ids)");
-                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-                $_SESSION['row_count'] = $sql->rowCount();
-                */
-                /*
-                $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId IN (?)");
-                $sql->execute($_SESSION['personId']);
-                $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
-                $_SESSION['row_count'] = $sql->rowCount();
-                */
-                
-                /* // method 2 for returning pageIds with $_SESSION['personId'] as an array
-                $in = join(',', array_fill(0, count($_SESSION['personId']), '?'));
-                $sql ="SELECT Page_PageId FROM result WHERE Person_PersonID IN ('".$in."')";            
-                $Psql = $pdo->prepare($sql);
-                $Psql->execute($_SESSION['personId']);
-                $resultPageIds=$Psql->fetchAll(PDO::FETCH_ASSOC);
-                $_SESSION['row_count'] = $Psql->rowCount();
-                 * 
-                 */
+              
             }
             else // if looking through a specific yearbook
             {
@@ -109,6 +86,8 @@ catch(PDOException $e)
                 $_SESSION['row_count'] = $sql->rowCount();
             }
             
+            $infoArray=[];
+            array_push($infoArray,""); //fills [0] space in array
             
             $pathArray=[];
             array_push($pathArray,""); //fills [0] space in array
@@ -117,19 +96,20 @@ catch(PDOException $e)
             {
                 foreach($resultPageIds as $id)
                 {        
-                    //echo $id[Page_PageId]."<br>";
-                    //$q=$pdo->query("SELECT Description, Type FROM Result WHERE Page_PageId ='".$id[Page_PageId]."' AND Person_PersonID='".$SESSION['personId']."' "); 
-                    //TODO FIX!
-                    //TODO needs to take all publication name,description and type results to be displayed next to correct image.
-                    //TODO figure out if multidementional array is needed
-
+                    $sql3= $pdo->prepare("SELECT Description FROM Result WHERE Page_PageId =? AND Person_PersonID=?");
+                    $sql3->execute(array($id['Page_PageId'], $_SESSION['personId']));
+                    $resultInfo=$sql3->fetch(PDO::FETCH_ASSOC);
+                    $stringInfo=array_pop($resultInfo); //convert from array to string 
+                    array_push($infoArray,$stringInfo); // add value to array with all resulting page info
+                    $_SESSION['SearchInfo']=$infoArray;
+                    
                     //get image paths for search result pages
                     $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
                     $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
-                    $shortPath=str_replace("C:\\MAMP\\htdocs\\GusNicholsArchives\\", "", $resultPath[Image_Path]);
-                    array_push($pathArray,$shortPath);
-                    $_SESSION['SearchResults']=$pathArray;
+                    $stringPath=array_pop($resultPath); //convert from array to string 
+                    array_push($pathArray,$stringPath); // add value to array with all resulting paths
+                    $_SESSION['SearchResults']=$pathArray; //image paths stored in session array
                         
                   
                 }
@@ -146,6 +126,7 @@ catch(PDOException $e)
 
 if(isset($_SESSION['SearchResults']))//if search results have already been acquired 
 { 
+    
 ?>
 
 <div class="container">
@@ -164,22 +145,20 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
                 
                 <table>
                 <thead>
-                <tr>
-                <th>Publication</th>
-                <th>Page Number</th>
-                <th>Description</th>
-                <th>Type</th>
-                    
-                </tr>
                 </thead>
                 <tbody>
-                
                 <tr>
-                    <td><?php echo extractPublicationName($_SESSION['SearchResults'][$count]); echo " ";
-                    echo extractPageNumber($_SESSION['SearchResults'][$count]) ;?></td>
-                
+                    <td><?php echo "Publication:" . extractPublicationName($_SESSION['SearchResults'][$count]); ?><td>
                 </tr>
-                
+                <tr>
+                    <td><?php echo "Page Number:" . extractPageNumber($_SESSION['SearchResults'][$count]); ?></td>
+                </tr>
+                <tr>
+                    <td><?php echo "Description:" . $_SESSION['SearchInfo'][$count]; ?></td>
+                </tr>
+                <tr>
+                    <td><?php// echo "Type:" . $resultInfo[Type]; ?></td>  
+                </tr>
                 </tbody>
                 </table>
 
