@@ -36,6 +36,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
         <script src="js/modernizr.custom.js"></script>
 </head>
 <body>
+    <div class="nav">
      <!--Banner and navigation bar !-->
         <!--<img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">!-->
         <ul>
@@ -44,6 +45,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <li><a href="importFile.php">Import Publication</a></li>
             <li>About</li>
         </ul>
+    </div>
         <!--Banner and navigation bar !--> 
     <div class="container">
         <div class="bb-custom-wrapper">

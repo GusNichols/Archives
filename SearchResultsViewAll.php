@@ -24,6 +24,7 @@ catch(PDOException $e)
         <link rel="stylesheet" href="css/Style.css">
     </head>
     <body>
+        <div class="nav">
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -36,7 +37,7 @@ catch(PDOException $e)
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
-        
+        <div class="nav">
         <div class='wrap'>
         <?php
         

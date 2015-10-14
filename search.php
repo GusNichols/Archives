@@ -27,6 +27,7 @@ catch(PDOException $e)
         <title>Gus Nichols Archives</title>
     </head>
     <body>
+        <div class="nav">
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -35,6 +36,7 @@ catch(PDOException $e)
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li>About</li>
         </ul>
+        </div>
         <hr>
         <!--Banner and navigation bar !-->
         <div class="wrap">

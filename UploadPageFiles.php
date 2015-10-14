@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     
     <body>
        <?php //echo $_SESSION['publicationId']; ?>
+        <div class="nav">
      <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
-        
+        </div>
         <div class="wrap">
             <?php
             if ($count > 0) {

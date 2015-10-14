@@ -39,6 +39,7 @@ catch(PDOException $e)
         <script src="js/modernizr.custom.js"></script>
 </head>
 <body>
+    <div class="nav">
      <!--Banner and navigation bar commented out to make more room for result pages !-->
         <!--<img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">!-->
         <ul>
@@ -50,7 +51,7 @@ catch(PDOException $e)
             <li><a href="SearchResultsViewAll.php"> View All </a></li>
         </ul>
         <!--Banner and navigation bar !--> 
-    
+    </div>
         <?php  
         
         

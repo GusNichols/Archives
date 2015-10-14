@@ -23,6 +23,7 @@ catch(PDOException $e)
         <title>Select a Publication to View</title>
     </head>
     <body>
+        <div class="nav">
          <!--Banner and navigation bar !-->
          <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -32,6 +33,7 @@ catch(PDOException $e)
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
+        </div>
         <div class="wrap">
         <form action='ViewPublication.php' method='post'>
              <h1> Please select the publication that you would like to view: </h1>

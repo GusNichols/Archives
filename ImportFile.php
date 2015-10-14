@@ -24,6 +24,7 @@ catch(PDOException $e)
         <title>Gus Nichols Archives Add Publication</title>
     </head>
     <body>
+        <div class="nav">
         <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -34,7 +35,7 @@ catch(PDOException $e)
         </ul>
         <hr>
         <!--Banner and navigation bar !-->
-        
+        </div> 
         <div class="wrap">
         <h4>**Important**<br>Please ensure that you import .CSV files <b>NOT</b> Excel files.</h4>
         <br>

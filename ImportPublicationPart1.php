@@ -25,7 +25,7 @@ catch(PDOException $e)
    <title>Importing a New Publication</title>
 </head>
 <body>
-    
+    <div class="nav">
     <!--Banner and navigation bar !-->
         <img src="images/GusNicholsBanner.jpg" alt="Gus Nichols Archives Banner" height="79" width="1360">
         <ul>
@@ -35,7 +35,7 @@ catch(PDOException $e)
             <li>About</li>
         </ul>
         <!--Banner and navigation bar !--> 
-
+    </div>
 
  <?php
    // start Publication table import  ---------------
