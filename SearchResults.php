@@ -86,9 +86,10 @@ catch(PDOException $e)
                 $_SESSION['row_count'] = $sql->rowCount();
             }
             
-            $infoArray=[];
-            array_push($infoArray,""); //fills [0] space in array
-            
+            $desArray=[];
+            array_push($desArray,""); //fills [0] space in array
+            $typeArray=[];
+            array_push($typeArray,""); //fills [0] space in array
             $pathArray=[];
             array_push($pathArray,""); //fills [0] space in array
 
@@ -96,13 +97,16 @@ catch(PDOException $e)
             {
                 foreach($resultPageIds as $id)
                 {        
-                    $sql3= $pdo->prepare("SELECT Description FROM Result WHERE Page_PageId =? AND Person_PersonID=?");
+                    $sql3= $pdo->prepare("SELECT Description, Type FROM Result WHERE Page_PageId =? AND Person_PersonID=?");
                     $sql3->execute(array($id['Page_PageId'], $_SESSION['personId']));
-                    $resultInfo=$sql3->fetch(PDO::FETCH_ASSOC);
-                    $stringInfo=array_pop($resultInfo); //convert from array to string 
-                    array_push($infoArray,$stringInfo); // add value to array with all resulting page info
-                    $_SESSION['SearchInfo']=$infoArray;
-                    
+                    // get page info for search result pages
+                    $resultInfo=$sql3->fetch(PDO::FETCH_ASSOC); //fetch columns from database
+                    $resultDes=$resultInfo[Description];
+                    $resultType=$resultInfo[Type];
+                    array_push($desArray,$resultDes); // add value to array with all resulting page info
+                    array_push($typeArray,$resultType); 
+                    $_SESSION['SearchDescriptions']=$desArray; //convert array to session array
+                    $_SESSION['SearchTypes']=$typeArray;
                     //get image paths for search result pages
                     $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
@@ -111,7 +115,8 @@ catch(PDOException $e)
                     array_push($pathArray,$stringPath); // add value to array with all resulting paths
                     $_SESSION['SearchResults']=$pathArray; //image paths stored in session array
                         
-                  
+                    
+                    
                 }
                     
             } 
@@ -142,7 +147,7 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
         ?>
          <div class="bb-item">
             <div class="bb-custom-side">
-                
+                <div class="wrap">
                 <table>
                 <thead>
                 </thead>
@@ -154,16 +159,14 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
                     <td><?php echo "Page Number:" . extractPageNumber($_SESSION['SearchResults'][$count]); ?></td>
                 </tr>
                 <tr>
-                    <td><?php echo "Description:" . $_SESSION['SearchInfo'][$count]; ?></td>
+                    <td><?php echo "Description:" . $_SESSION['SearchDescriptions'][$count]; ?></td>
                 </tr>
                 <tr>
-                    <td><?php// echo "Type:" . $resultInfo[Type]; ?></td>  
+                    <td><?php echo "Type:" . $_SESSION['SearchTypes'][$count]; ?></td>  
                 </tr>
                 </tbody>
                 </table>
-
-
-                
+                </div>
             </div> 
 
         <?php

@@ -41,7 +41,7 @@ catch(PDOException $e)
        
         
         <?php if($_SESSION['part']==2){ //if the first file has already been uploaded and imported
-        echo "<h3> Step 2 - File Upload:</h3>"; ?>
+        echo "<h1> Step 2 - File Upload:</h1>"; ?>
         <br>
         <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
         
@@ -52,7 +52,7 @@ catch(PDOException $e)
         </form>
         
         <?php } else { $_SESSION['part']=1; //create session variable since in this case it doesn't exist
-        echo "<h3> Step 1 - File Upload:</h3>"; ?>
+        echo "<h1> Step 1 - File Upload:</h1>"; ?>
         <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">
         
         <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.

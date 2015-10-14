@@ -45,9 +45,11 @@ catch(PDOException $e)
              {  
                 
                 for($count=1;$count<=$_SESSION['row_count'];$count++)
-                {
+                {   
                     echo "<img src='".$_SESSION['SearchResults'][$count]."' height='635' width='525' alt='result' >";
-                }  
+                    echo $_SESSION['SearchDescriptions'][$count];
+                    echo $_SESSION['SearchTypes'][$count];
+                }   
              } 
             else 
              {

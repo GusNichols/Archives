@@ -90,9 +90,10 @@ catch(PDOException $e)
     } //end if          
                 //session_unset(); //erase temporary values used for importing
             ?> 
-        <div class="wrap">
+         <div class="wrap">
         
             <h1>Congratulations! This Yearbook is ready to be viewed.</h1>
+            <img src='images/library.jpg' width='700' height='541' alt='books'>
     
         </div>
         
