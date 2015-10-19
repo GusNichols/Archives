@@ -76,7 +76,7 @@ catch (Exception $e)
     
     //----end page table import------------*/
     
-    //start result table import--(working)-- 
+    //start PageInfo table import--(working)-- 
 try
 {
     rewind($fp2);
@@ -104,7 +104,7 @@ try
         $type = trim($data3[4]);
      
         // Insert Data
-        $sql4 = $pdo->prepare("INSERT INTO Result (Description,Type,Person_PersonId,Page_PageId,Publication_PublicationId)
+        $sql4 = $pdo->prepare("INSERT INTO PageInfo (Description,Type,Person_PersonId,Page_PageId,Publication_PublicationId)
         VALUES (?,?,?,?,?)");
         $sql4->execute(array($description,$type,$personId,$pageId,$publicationId));
         
@@ -119,7 +119,7 @@ catch (Exception $e)
     fclose($file2);
 }
     
-    //end result table import--*/
+    //end PageInfo table import--*/
 
 //functions section
 function findName($last, $first, $pdo)

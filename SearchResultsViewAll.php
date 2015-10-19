@@ -37,7 +37,7 @@ catch(PDOException $e)
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
-        <div class="nav">
+        </div>
         <div class='wrap'>
         <?php
         
@@ -47,9 +47,16 @@ catch(PDOException $e)
                 
                 for($count=1;$count<=$_SESSION['row_count'];$count++)
                 {   
-                    echo "<img src='".$_SESSION['SearchResults'][$count]."' height='635' width='525' alt='result' >";
-                    echo $_SESSION['SearchDescriptions'][$count];
-                    echo $_SESSION['SearchTypes'][$count];
+                    echo "<img src='" . $_SESSION['SearchResults'][$count]."' height='635' width='525' alt='result' >";
+                    echo "<br>";
+                    echo "Publication: " . extractPublicationName($_SESSION['SearchResults'][$count]);
+                    echo "<br>";
+                    echo "Page Number: " . extractPageNumber($_SESSION['SearchResults'][$count]);
+                    echo "<br>";
+                    echo "Description: " . $_SESSION['SearchDescriptions'][$count];
+                    echo "<br>";
+                    echo "Type: " . $_SESSION['SearchTypes'][$count];
+                    echo "<br>";
                 }   
              } 
             else 
@@ -60,4 +67,22 @@ catch(PDOException $e)
         </div>
     </body>
 </html>
- 
+ <?php
+    function extractPageNumber($imageName)
+{
+    $start  = strpos($imageName, '(');
+    $end    = strpos($imageName, ')', $start + 3);
+    $length = $end - $start;
+    $pageNum = substr($imageName, $start + 4, $length - 4);
+        return $pageNum;
+}
+   ///  TODO fix function!
+   function extractPublicationName($imageName)
+{
+    $start  = strpos($imageName, '\\');
+    $end    = strrpos($imageName, '\\');
+    $length = $end - $start;
+    $pubName = substr($imageName, $start+1, $length-1);
+        return $pubName;
+}
+?>

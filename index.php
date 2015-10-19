@@ -32,11 +32,11 @@ catch(PDOException $e)
             <li><a href="search.php">Search</a></li>
             <li>About</li>
         </ul>
-        </div>
         <hr>
         <!--Banner and navigation bar !--> 
-        
+        </div>
         <img src='images/books.jpg' width='1102' height='541' alt='books'>
+        
     </body>
 </html>
 

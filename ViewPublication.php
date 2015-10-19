@@ -51,7 +51,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
         <div class="bb-custom-wrapper">
             <div id="bb-bookblock" class="bb-bookblock">
             <?php $count=1; while($count==1){
-                $sql= $pdo->prepare("SELECT Image_Path from Page WHERE Publication_PublicationId=? AND PageNumber=?");
+                $sql= $pdo->prepare("SELECT ImagePath from Page WHERE Publication_PublicationId=? AND PageNumber=?");
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath = $sql->fetchColumn();
                 

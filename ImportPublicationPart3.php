@@ -61,7 +61,7 @@ catch(PDOException $e)
             if ($pageId)
             {
              //echo $pageNum.":".$pageId."<br />";
-             $sql=$pdo->prepare("UPDATE Page SET Image_Path=? WHERE PageId=?");
+             $sql=$pdo->prepare("UPDATE Page SET ImagePath=? WHERE PageId=?");
              try
              {
              $sql->execute(array($DBPath,$pageId));
@@ -75,7 +75,7 @@ catch(PDOException $e)
         
             else
             {
-                $sql=$pdo->prepare("INSERT into Page (PageNumber,Image_Path, Publication_PublicationID)"
+                $sql=$pdo->prepare("INSERT into Page (PageNumber,ImagePath, Publication_PublicationID)"
                         . "VALUES(?,?,?)");
                 try{
                 $sql->execute(array($pageNum,$DBPath,$_SESSION['publicationId']));
