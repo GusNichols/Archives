@@ -67,7 +67,7 @@ catch(PDOException $e)
             
             if($_POST['PubName']=='All')// if searching through all yearbooks in database
             {   
-                $sql= $pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=?");
+                $sql= $pdo->prepare("SELECT Page_PageId FROM PageInfo WHERE Person_PersonId=?");
                 $sql->execute(array($_SESSION['personId']));
                 $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
                 $_SESSION['row_count'] = $sql->rowCount();
@@ -80,7 +80,7 @@ catch(PDOException $e)
                 $sql->execute(array($_POST['PubName']));
                 $_SESSION['publicationId']=$sql->fetchColumn();
                 
-                $sql=$pdo->prepare("SELECT Page_PageId FROM result WHERE Person_PersonId=? && Publication_PublicationId=?");
+                $sql=$pdo->prepare("SELECT Page_PageId FROM PageInfo WHERE Person_PersonId=? && Publication_PublicationId=?");
                 $sql->execute(array($_SESSION['personId'],$_SESSION['publicationId']));
                 
                 $resultPageIds=$sql->fetchAll(PDO::FETCH_ASSOC);
@@ -98,7 +98,7 @@ catch(PDOException $e)
             {
                 foreach($resultPageIds as $id)
                 {        
-                    $sql3= $pdo->prepare("SELECT Description, Type FROM Result WHERE Page_PageId =? AND Person_PersonID=?");
+                    $sql3= $pdo->prepare("SELECT Description, Type FROM PageInfo WHERE Page_PageId =? AND Person_PersonID=?");
                     $sql3->execute(array($id['Page_PageId'], $_SESSION['personId']));
                     // get page info for search result pages
                     $resultInfo=$sql3->fetch(PDO::FETCH_ASSOC); //fetch columns from database
@@ -109,7 +109,7 @@ catch(PDOException $e)
                     $_SESSION['SearchDescriptions']=$desArray; //convert array to session array
                     $_SESSION['SearchTypes']=$typeArray;
                     //get image paths for search result pages
-                    $sql2= $pdo->prepare("SELECT Image_Path FROM Page WHERE PageId=?");
+                    $sql2= $pdo->prepare("SELECT ImagePath FROM Page WHERE PageId=?");
                     $sql2->execute(array($id['Page_PageId']));
                     $resultPath=$sql2->fetch(PDO::FETCH_ASSOC);
                     $stringPath=array_pop($resultPath); //convert from array to string 
@@ -207,19 +207,19 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
 
 function findName($last, $first, $pdo)
     {
-        if($last != NULL || "")
+        if($last != NULL || "") //if searching with last name, sanitize data
         {
             $last = trim($last);
             $last = stripslashes($last);
             $last = htmlspecialchars($last);
         }
-        if($first != NULL || "")
+        if($first != NULL || "") // if searching with first name, sanitize data
         {
             $first = trim($first);
             $first = stripslashes($first);
             $first = htmlspecialchars($first);
         }
-        //manual return since it can't find personID 1 for "unknown" entries
+        //manual return for "unknown" entries (These have personId of 1)
        if($last === "Unknown")
         {
           return 1;
