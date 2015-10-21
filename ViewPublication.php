@@ -50,7 +50,14 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
     <div class="container">
         <div class="bb-custom-wrapper">
             <div id="bb-bookblock" class="bb-bookblock">
-            <?php $count=1; while($count==1){
+            <?php 
+                //get last page number
+                $q=$pdo->prepare("select PageNumber from page where publication_publicationId=? order by PageNumber +0 desc limit 1; ");
+                $q->execute(array($_SESSION['publicationId'])); //TODO fix database column for Page number to int(4) so "+0"... 
+                                                                //...(basically int casting) is not needed in sql statement
+                $lastPage = $q->fetchColumn();
+                
+                $count=1; while($count==1){
                 $sql= $pdo->prepare("SELECT ImagePath from Page WHERE Publication_PublicationId=? AND PageNumber=?");
                 $sql->execute(array($_SESSION['publicationId'], $count));
                 $imagePath = $sql->fetchColumn();
@@ -61,6 +68,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 <div class="bb-item">
                     <div class="bb-custom-side">
                         <!-- blank for first page to the right !-->
+                        <?php echo "last page: ".$lastPage;?>
                      </div> 
                      <div class="bb-custom-firstpage">
                          <img src="<?php echo $imagePath?>" height="635" width="525"  alt="Sheaf Page 1">	
@@ -69,7 +77,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 </div>
            <?php $count++; } ?>
                 <?php
-                while(($count>1))
+                while(($count>1)&&($count<=$lastPage))
                 {                
 
                 $sql->execute(array($_SESSION['publicationId'], $count));
@@ -91,9 +99,25 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 
                 if($imagePath3==false)
                 {
-                   $count='';
+                   if($count<$lastPage)//if not all of the pages have been displayed yet
+                   {   $testCount=$count+1; //see if next page exists
+                       $sql->execute(array($_SESSION['publicationId'], $testCount));
+                       $TestImagePath = $sql->fetchColumn();
+                       //if next page does not exist either, assume main pages are finished...
+                       if($TestImagePath==false)
+                       {
+                       $count=1000;//...and move on to supplement pages.
+                       }
+                       //otherwise, skip this page and keep going
+                   }
+                   
+                   else //if last page has been reached
+                   {
+                       $count=0;//get out of while loop
+                       
+                   }
                 }
-                if($count!='')
+                if($count!=0) //if there are still pages to display
                 {
                ?>
                
@@ -102,7 +126,8 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                     </div>
                 
                 <?php }
-                if($count==''){?> <div class="bb-custom-side"><h1>You have reached the end of this publication</h1></div>
+                //if all pages have been displayed
+                if($count==0){?> <div class="bb-custom-side"><h1>You have reached the end of this publication</h1></div>
                 <?php } ?>
                 </div>
                 <?php $count++; }

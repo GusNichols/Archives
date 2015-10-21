@@ -55,11 +55,22 @@ catch(PDOException $e)
     {
         
         $pageNumber = trim($data2[2]);
+        
+        /*/*If page number starts with S, change to S to equal 1000
+            so the numbers continue as 1001, 1002 etc.*/
+        // if part of supplement or pages moved to the end of the publication:
+        if (stripos($pageNumber,'S') !== false) 
+        { 
+            $pageNumber = preg_replace('/[^0-9]/', '', $pageNumber); //take out letters (S)
+            $pageNumber=(int)$pageNumber +1000; //add 1000 to supplement page number
+        }
+      
         //check for duplicate entries
         $q = $pdo->query("SELECT PageId FROM Page WHERE Publication_PublicationId='".$publicationId."' AND PageNumber='".$pageNumber."'");
         $duplicateRows= $q->rowCount();
         if(($duplicateRows)==0)
         {
+           
             $sql3 = "INSERT INTO Page (PageNumber,Publication_PublicationId)
             VALUES ('".$pageNumber."','".$publicationId."')";
             $pdo->exec($sql3);
