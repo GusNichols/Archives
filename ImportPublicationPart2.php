@@ -1,6 +1,6 @@
 <?php
 session_start();
-echo session_status();
+//echo session_status();
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

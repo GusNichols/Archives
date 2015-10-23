@@ -52,7 +52,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <div id="bb-bookblock" class="bb-bookblock">
             <?php 
                 //get last page number
-                $q=$pdo->prepare("select PageNumber from page where publication_publicationId=? order by PageNumber +0 desc limit 1; ");
+                $q=$pdo->prepare("select PageNumber from page where publication_publicationId=? order by PageNumber desc limit 1; ");
                 $q->execute(array($_SESSION['publicationId'])); //TODO fix database column for Page number to int(4) so "+0"... 
                                                                 //...(basically int casting) is not needed in sql statement
                 $lastPage = $q->fetchColumn();
