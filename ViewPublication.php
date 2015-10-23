@@ -68,7 +68,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
                 <div class="bb-item">
                     <div class="bb-custom-side">
                         <!-- blank for first page to the right !-->
-                        <?php echo "last page: ".$lastPage;?>
+                        
                      </div> 
                      <div class="bb-custom-firstpage">
                          <img src="<?php echo $imagePath?>" height="635" width="525"  alt="Sheaf Page 1">	
