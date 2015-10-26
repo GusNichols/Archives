@@ -47,14 +47,14 @@ catch(PDOException $e)
     $fp2 = fopen($file2,'r');
     set_time_limit(0);
     $data2 = [];
-    for($i=0; $i<4; $i++) //ignores first 4 lines
+    for($i=0; $i<5; $i++) //ignores first 5 lines
     {
         fgetcsv($fp2);
     }
     while (($data2 = fgetcsv($fp2)) !== FALSE)
     {
         
-        $pageNumber = trim($data2[2]);
+        $pageNumber = trim($data2[6]);
         
         /*/*If page number starts with S, change to S to equal 1000
             so the numbers continue as 1001, 1002 etc.*/
@@ -92,7 +92,7 @@ try
 {
     rewind($fp2);
     $data3 = [];
-    for($i=0; $i<4; $i++) //ignores first 4 lines
+    for($i=0; $i<5; $i++) //ignores first 5 lines
     {
        fgetcsv($fp2);
         
@@ -106,13 +106,13 @@ try
         
         
         $personId  = findName($lastName, $firstName, $pdo);
-        $page = trim($data3[2]);
+        $page = trim($data3[6]);
      
         $pageId = findPage($publicationId, $page,  $pdo);
-        $description = trim($data3[3]);
+        $description = trim($data3[7]);
         
       
-        $type = trim($data3[4]);
+        $type = trim($data3[8]);
      
         // Insert Data
         $sql4 = $pdo->prepare("INSERT INTO PageInfo (Description,Type,Person_PersonId,Page_PageId,Publication_PublicationId)
@@ -141,8 +141,8 @@ function findName($last, $first, $pdo)
           return 1;
         }
        
-        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
-        $stmt->execute(array($last, $first));
+        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND (FirstName=? OR NickName=?)");
+        $stmt->execute(array($last, $first, $first));
         $results = $stmt->fetchColumn();
         if ($results)
         {

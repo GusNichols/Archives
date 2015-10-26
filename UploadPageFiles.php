@@ -35,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             <?php
             if ($count > 0) {
                 echo "<p class='msg'>{$count} files uploaded</p>\n\n";
+                echo "<p class='msg'><a href='ImportPublicationPart3.php'>
+                    Continue to the next step</a></p>\n\n";
             }
             echo "<h1> Step ". $_SESSION['part']. "  - Page Image Files</h1>";
             ?>
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             </form>
             <p>After clicking the upload button, refer to the bottom left corner of the page
             for upload progress.</p>
-            <p>When the upload is complete <a href="ImportPublicationPart3.php">Continue to the next step</a></p>
+            <p>When the upload is complete </p>
         </div>
     </body>
 </html>

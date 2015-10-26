@@ -51,21 +51,22 @@ catch(PDOException $e)
                 "*.jpg", GLOB_NOSORT) as $imagePath)        
         {  
             $imageName= basename($imagePath);
-           // echo $imageName;
+            //echo $imageName;
             $DBPath= $permanentPath . $imageName;
             $pageNum= extractPageNumber($imageName);
-           // echo $pageNum;
+            //echo $pageNum;
             $stmt = $pdo->prepare("SELECT PageId FROM Page WHERE PageNumber=? AND Publication_PublicationId=?");
             $stmt->execute(array($pageNum, $_SESSION['publicationId']));
             $pageId = $stmt->fetchColumn();
+            //echo "pageId: " . $pageId;
             if ($pageId)
             {
-             //echo $pageNum.":".$pageId."<br />";
+            echo $pageNum.":".$pageId."<br />";
              $sql=$pdo->prepare("UPDATE Page SET ImagePath=? WHERE PageId=?");
              try
              {
              $sql->execute(array($DBPath,$pageId));
-             //echo "Page ".$pageNum."imported <br />"; 
+            // echo "Page ".$pageNum."imported <br />"; 
              }
             catch(PDOException $e)
             {
@@ -93,10 +94,9 @@ catch(PDOException $e)
                 //session_unset(); //erase temporary values used for importing
             ?> 
          <div class="wrap">
-        
+         
             <h1>Congratulations! This Yearbook is ready to be viewed.</h1>
             <img src='images/library.jpg' width='700' height='541' alt='books'>
-    
         </div>
         
     </body>

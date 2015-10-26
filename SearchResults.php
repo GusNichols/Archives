@@ -226,8 +226,8 @@ function findName($last, $first, $pdo)
         }
        if(($last != NULL || "") && ($first != NULL || ""))//if searching with both first and last names
        {
-        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
-        $stmt->execute(array($last, $first));
+        $stmt = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND (FirstName=? or NickName=?)");
+        $stmt->execute(array($last, $first,$first));
         $results = $stmt->fetchColumn();
         return $results;
        }

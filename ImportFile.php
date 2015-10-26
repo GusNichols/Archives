@@ -48,7 +48,7 @@ catch(PDOException $e)
         
         <p>Please choose the .csv file from the <b>first</b> sheet of the excel worksheet.
             <br>This file contains names, page numbers, descriptions, and types. </p>
-        <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
+        <p>file to upload:</p> <input type="file" name="uploadedfile" required><br> 
         <input type="submit" value="Upload File" />
         </form>
         
@@ -58,7 +58,7 @@ catch(PDOException $e)
         
         <p>Please choose the .csv file from the <b>second</b> sheet of the excel worksheet.
         <br>This file contains names and page numbers.</p>
-        <p>file to upload:</p> <input name="uploadedfile" type="file" required><br>
+        <p>file to upload:</p> <input type="file" name="uploadedfile" required><br> 
         <p>Name of publication:</p><input type="text" name="name" required>
         <input type="submit" value="Upload File" />
         </form>
