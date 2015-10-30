@@ -18,7 +18,7 @@ catch(PDOException $e)
 
             
 
-//TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT (possibly done)
+//TODO FIX escape strings ON OTHER FILES SO THAT SEARCH IS CONSISTANT (figure out how to check this)
 ?>
 
             
@@ -55,15 +55,13 @@ catch(PDOException $e)
         <?php  
         
         
-        //TODO change for result table details to show on right side
-        //TODO add page jump search
-        
         
         if(!isset($_SESSION['SearchResults'])) //if new search is occuring
-        {
-            
-            $_SESSION['personId']= findName(mysql_real_escape_string($_POST['lname']),
-                    mysql_real_escape_string($_POST['fname']),$pdo);
+        {   //sanitize form data and find personId number
+            $cleanLastName= cleanName($_POST['lname']);
+            $cleanFirstName= cleanName($_POST['fname']);
+            $_SESSION['personId']= findName($cleanLastName,
+                    $cleanFirstName,$pdo);
             
             if($_POST['PubName']=='All')// if searching through all yearbooks in database
             {   
@@ -73,7 +71,7 @@ catch(PDOException $e)
                 $_SESSION['row_count'] = $sql->rowCount();
               
             }
-            else // if looking through a specific yearbook
+            else // if looking through a specific yearbook selected on search form
             {
                 //find publication id
                 $sql=$pdo->prepare("SELECT PublicationId FROM Publication WHERE Name=?");
@@ -87,11 +85,11 @@ catch(PDOException $e)
                 $_SESSION['row_count'] = $sql->rowCount();
             }
             
-            $desArray=[];
+            $desArray=[]; //array for resulting descriptions
             array_push($desArray,""); //fills [0] space in array
-            $typeArray=[];
+            $typeArray=[]; ///array for result types (photo, group photo, listed, etc)
             array_push($typeArray,""); //fills [0] space in array
-            $pathArray=[];
+            $pathArray=[]; //array for the page's image paths
             array_push($pathArray,""); //fills [0] space in array
 
             if ($_SESSION['row_count'] > 0) // if at least one result is returned
@@ -155,14 +153,11 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
                 <tbody>
                 <tr>
                     <td><?php echo "Publication:" . extractPublicationName($_SESSION['SearchResults'][$count]); ?><td>
-                </tr>
-                <tr>
+               
                     <td><?php echo "Page Number:" . extractPageNumber($_SESSION['SearchResults'][$count]); ?></td>
-                </tr>
-                <tr>
+                
                     <td><?php echo "Description:" . $_SESSION['SearchDescriptions'][$count]; ?></td>
-                </tr>
-                <tr>
+                
                     <td><?php echo "Type:" . $_SESSION['SearchTypes'][$count]; ?></td>  
                 </tr>
                 </tbody>
@@ -204,21 +199,15 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
     </div><!-- /container -->
 
 <?php } 
-
+function cleanName($name)
+{
+    $name2 = trim($name);
+    $name3 = stripslashes($name2);
+    $name4 = htmlspecialchars($name3);
+        return $name4;
+}      
 function findName($last, $first, $pdo)
     {
-        if($last != NULL || "") //if searching with last name, sanitize data
-        {
-            $last = trim($last);
-            $last = stripslashes($last);
-            $last = htmlspecialchars($last);
-        }
-        if($first != NULL || "") // if searching with first name, sanitize data
-        {
-            $first = trim($first);
-            $first = stripslashes($first);
-            $first = htmlspecialchars($first);
-        }
         //manual return for "unknown" entries (These have personId of 1)
        if($last === "Unknown")
         {
@@ -249,7 +238,7 @@ function findName($last, $first, $pdo)
     $pageNum = substr($imageName, $start + 4, $length - 4);
         return $pageNum;
 }
-   ///  TODO fix function!
+   
    function extractPublicationName($imageName)
 {
     $start  = strpos($imageName, '\\');

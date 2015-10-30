@@ -76,7 +76,7 @@ catch(PDOException $e)
     $pageNum = substr($imageName, $start + 4, $length - 4);
         return $pageNum;
 }
-   ///  TODO fix function!
+   
    function extractPublicationName($imageName)
 {
     $start  = strpos($imageName, '\\');

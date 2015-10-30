@@ -43,6 +43,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Publication</a></li>
+            <li><a href="search.php">Search</a></li>
             <li>About</li>
         </ul>
     </div>
@@ -53,8 +54,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <?php 
                 //get last page number
                 $q=$pdo->prepare("select PageNumber from page where publication_publicationId=? order by PageNumber desc limit 1; ");
-                $q->execute(array($_SESSION['publicationId'])); //TODO fix database column for Page number to int(4) so "+0"... 
-                                                                //...(basically int casting) is not needed in sql statement
+                $q->execute(array($_SESSION['publicationId'])); 
                 $lastPage = $q->fetchColumn();
                 
                 $count=1; while($count==1){
