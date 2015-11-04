@@ -49,6 +49,8 @@ catch(PDOException $e)
                 {   
                     echo "<img src='" . $_SESSION['SearchResults'][$count]."' height='635' width='525' alt='result' >";
                     echo "<br>";
+                    echo "Name:" . $_SESSION['FullName'];
+                    echo "<br>";
                     echo "Publication: " . extractPublicationName($_SESSION['SearchResults'][$count]);
                     echo "<br>";
                     echo "Page Number: " . extractPageNumber($_SESSION['SearchResults'][$count]);

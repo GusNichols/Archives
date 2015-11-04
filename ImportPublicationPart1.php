@@ -84,7 +84,7 @@ try
         $suffix = trim($data[5]);
         
         //check for duplicate entries
-        $q = $pdo->prepare("SELECT * FROM Person WHERE LastName=? AND FirstName=?");
+        $q = $pdo->prepare("SELECT PersonId FROM Person WHERE LastName=? AND FirstName=?");
         $q->execute(array($lastName,$firstName));
         $duplicateRows= $q->rowCount();
         if(($duplicateRows)==0) //if name is not already in database

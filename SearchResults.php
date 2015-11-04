@@ -95,10 +95,17 @@ catch(PDOException $e)
             if ($_SESSION['row_count'] > 0) // if at least one result is returned
             {
                 foreach($resultPageIds as $id)
-                {        
+                {   
+                    //get full name
+                    $stmt= $pdo->prepare("SELECT Prefix,FirstName,MiddleName,LastName,Suffix FROM Person WHERE PersonId=?");
+                    $stmt->execute(array($_SESSION['personId']));
+                    $NameInfo=$stmt->fetch(PDO::FETCH_ASSOC); //fetch columns from database
+                    $fullName= $NameInfo[Prefix]." " .$NameInfo[FirstName]." ".$NameInfo[MiddleName]." ".$NameInfo[LastName]." ".$NameInfo[Suffix];
+                    $_SESSION['FullName']=$fullName;
+                    $_SESSION['SearchDescriptions']=$desArray; //convert array to session array
+                    // get page info for search result pages
                     $sql3= $pdo->prepare("SELECT Description, Type FROM PageInfo WHERE Page_PageId =? AND Person_PersonID=?");
                     $sql3->execute(array($id['Page_PageId'], $_SESSION['personId']));
-                    // get page info for search result pages
                     $resultInfo=$sql3->fetch(PDO::FETCH_ASSOC); //fetch columns from database
                     $resultDes=$resultInfo[Description];
                     $resultType=$resultInfo[Type];
@@ -147,21 +154,18 @@ if(isset($_SESSION['SearchResults']))//if search results have already been acqui
          <div class="bb-item">
             <div class="bb-custom-side">
                 <div class="wrap">
-                <table>
-                <thead>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><?php echo "Publication:" . extractPublicationName($_SESSION['SearchResults'][$count]); ?><td>
-               
-                    <td><?php echo "Page Number:" . extractPageNumber($_SESSION['SearchResults'][$count]); ?></td>
                 
-                    <td><?php echo "Description:" . $_SESSION['SearchDescriptions'][$count]; ?></td>
                 
-                    <td><?php echo "Type:" . $_SESSION['SearchTypes'][$count]; ?></td>  
-                </tr>
-                </tbody>
-                </table>
+                    <?php echo "Name:" . $_SESSION['FullName']; ?>
+                    <br>
+                    <?php echo "Publication:" . extractPublicationName($_SESSION['SearchResults'][$count]); ?>
+                    <br>
+                    <?php echo "Page Number:" . extractPageNumber($_SESSION['SearchResults'][$count]); ?>
+                    <br>
+                    <?php echo "Description:" . $_SESSION['SearchDescriptions'][$count]; ?>
+                    <br>
+                    <?php echo "Type:" . $_SESSION['SearchTypes'][$count]; ?>
+                    <br>
                 </div>
             </div> 
 
