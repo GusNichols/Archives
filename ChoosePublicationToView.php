@@ -1,5 +1,10 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+/*description: Allows user to select a publication to view in full from a 
+ * dropdown list of available publication names that are popluated from the database*/
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

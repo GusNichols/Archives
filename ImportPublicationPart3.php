@@ -1,5 +1,9 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+//description: Final import file.
+//---------------------------------------
 //echo session_status();
     //echo print_r($_SESSION);
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";

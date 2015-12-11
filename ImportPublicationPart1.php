@@ -1,8 +1,12 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+/*description: Import process file #2. A publication is created and the file is 
+ * read to place names into the database.
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
-    $pass ="root";
 error_reporting(E_ALL);
 ini_set("auto_detect_line_endings",true);
 try {
@@ -10,7 +14,8 @@ try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       //  echo 'Connected successfully <br>';
     }
-catch(PDOException $e)
+catch(PDOException $e)    $pass ="root";
+
     {
         echo 'Connection failed: ' . $e->getMessage();
         

@@ -1,5 +1,9 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+//description: Shows a selected publication in full in an ebook format.
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

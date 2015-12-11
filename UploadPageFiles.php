@@ -1,5 +1,11 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+/*description: Import file after all text information is stored in the database.
+ * Creates folder to store page images in and uploads them.
+ */
+//---------------------------------------
 $count = 0;
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     foreach ($_FILES['files']['name'] as $i => $name) {

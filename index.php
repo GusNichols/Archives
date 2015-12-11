@@ -1,5 +1,9 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+//description: home page
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsArchives";
     $user ="root";
     $pass ="root";

@@ -1,6 +1,12 @@
 <?php
 session_start();
-//echo session_status();
+//---------------------------------------
+//author: Lindsey Wells
+/*description: Import process after second .csv file is obtained. The file is 
+*opened and information is placed into the database.
+ */
+//---------------------------------------
+
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

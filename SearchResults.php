@@ -1,5 +1,9 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+//description: file shown after the search file.
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

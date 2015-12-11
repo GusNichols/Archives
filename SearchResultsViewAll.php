@@ -1,5 +1,11 @@
 <?php
 session_start();
+//---------------------------------------
+//author: Lindsey Wells
+/*description: optional view accessible from the search results file. shows all 
+ * results one after another instead on a book format.
+ */
+//---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
     $pass ="root";

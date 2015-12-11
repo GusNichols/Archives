@@ -1,6 +1,12 @@
 <?php
 session_start();
 //erase any previous search results
+//---------------------------------------
+//author: Lindsey Wells
+/*description: used to search for specific people in one or all yearbooks that 
+ * have been previously imported.
+ */
+//---------------------------------------
 unset($_SESSION['SearchResults']);
 unset($_SESSION['row_count']);
 unset($_SESSION['SearchDetails']);
