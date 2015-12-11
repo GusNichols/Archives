@@ -2,9 +2,9 @@
 session_start();
 //---------------------------------------
 //author: Lindsey Wells
-/*description: The first file in the import process where a .csv is obtained 
- * from the user. This file is returned to in order to get the second .csv file.
- */
+//description: The first file in the import process where a .csv is obtained 
+//from the user. This file is returned to in order to get the second .csv file.
+
 //---------------------------------------
 $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";

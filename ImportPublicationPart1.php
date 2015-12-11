@@ -2,11 +2,12 @@
 session_start();
 //---------------------------------------
 //author: Lindsey Wells
-/*description: Import process file #2. A publication is created and the file is 
- * read to place names into the database.
+//description: Import process file #2. A publication is created and the file is 
+// read to place names into the database.
 //---------------------------------------
     $connString = "mysql:host=localhost;dbname=GusNicholsLibrary";
     $user ="root";
+    $pass ="root";
 error_reporting(E_ALL);
 ini_set("auto_detect_line_endings",true);
 try {
@@ -14,7 +15,7 @@ try {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       //  echo 'Connected successfully <br>';
     }
-catch(PDOException $e)    $pass ="root";
+catch(PDOException $e)    
 
     {
         echo 'Connection failed: ' . $e->getMessage();
@@ -64,7 +65,7 @@ catch (Exception $e)
        
     }
     
-    //end Publication table import------------------*/
+    //end Publication table import------------------
 
     //----start person table import ----
 try
@@ -109,7 +110,7 @@ catch (Exception $e)
         echo $sql2 . "<br>" . $e->getMessage();
         fclose($file);
     }
-//------end person table import --------*/
+//------end person table import --------
     $_SESSION['part']=2;
     
     ?>
