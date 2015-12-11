@@ -53,6 +53,7 @@ catch(PDOException $e)
              <li><a href="search.php">New Search</a></li>
             <li>About</li>
             <li><a href="SearchResultsViewAll.php"> View All </a></li>
+            <li><i>Viewer courtesy of BookBlock</i></li>
         </ul>
         <!--Banner and navigation bar !--> 
     </div>
