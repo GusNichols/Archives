@@ -40,7 +40,7 @@ catch(PDOException $e)
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
-            <li>About</li>
+            
         </ul>
         </div>
         <hr>

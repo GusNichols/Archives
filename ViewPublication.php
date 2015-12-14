@@ -48,7 +48,7 @@ $_SESSION['publicationId']=$stmt->fetchColumn();
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Publication</a></li>
             <li><a href="search.php">Search</a></li>
-            <li>About</li>
+            
             <li><i>Viewer courtesy of BookBlock</i></li>
         </ul>
     </div>

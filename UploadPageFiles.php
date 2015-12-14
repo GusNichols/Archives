@@ -3,7 +3,7 @@ session_start();
 //---------------------------------------
 //author: Lindsey Wells
 /*description: Import file after all text information is stored in the database.
- * Creates folder to store page images in and uploads them.
+ * stores page images in publication folder.
  */
 //---------------------------------------
 $count = 0;
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
-            <li>About</li>
+            
         </ul>
         <!--Banner and navigation bar !--> 
         </div>
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             </form>
             <p>After clicking the upload button, refer to the bottom left corner of the page
             for upload progress.</p>
-            <p>When the upload is complete </p>
+            
         </div>
     </body>
 </html>

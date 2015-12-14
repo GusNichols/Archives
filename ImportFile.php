@@ -37,7 +37,7 @@ catch(PDOException $e)
             <li><a href="index.php">Home</a></li>
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
-            <li>About</li>
+            
         </ul>
         <hr>
         <!--Banner and navigation bar !-->
@@ -134,7 +134,7 @@ catch(PDOException $e)
                         <form action='ImportPublicationPart2.php' method='post'>
                         <input type='hidden' name='file' value='<?php echo $target_path ?>'>
                         <p>Ready to continue. Please do not close or resubmit this page 
-                            after the clicking the button.</p>
+                            after clicking the button.</p>
                         <input type='submit' value='Continue'>
                         </form>
               <?php } else{ echo "<span class='error'>An error has occured while uploading the file.</span>";}

@@ -34,7 +34,7 @@ catch(PDOException $e)
             <li><a href="ChoosePublicationToView.php">View Publications</a></li>
             <li><a href="importFile.php">Import Yearbook</a></li>
             <li><a href="search.php">Search</a></li>
-            <li>About</li>
+            
         </ul>
         <hr>
         <!--Banner and navigation bar !--> 
